@@ -22,8 +22,8 @@ public class Interview {
     @Size(min = 2)
     private String intLocation;
 
-    @OneToOne(mappedBy = "job",cascade = CascadeType.ALL)
-    private Job job;
+//    @OneToOne(mappedBy = "job",cascade = CascadeType.ALL)
+//    private Job job;
 
     public long getId() {
         return id;
@@ -57,11 +57,11 @@ public class Interview {
         this.intLocation = intLocation;
     }
 
-    public Job getJob() {
-        return job;
-    }
-
-    public void setJob(Job job) {
-        this.job = job;
-    }
+//    public Job getJob() {
+//        return job;
+//    }
+//
+//    public void setJob(Job job) {
+//        this.job = job;
+//    }
 }
