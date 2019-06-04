@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <br>
+    <br>
+    <h1>Interviews</h1>
+    <table class="table table-borderless">
+        <thead></thead>
+        <tbody>
+        <tr th:each ="interview:${interviews}">
+            <th scope="row"></th>
+            <td> <b>[[${interview.job.position}]]</b><br />
+                <i>[[${interview.date}]]</i> | [[${interview.time}]]<br />
+                [[${interview.location}]]<br />
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>
