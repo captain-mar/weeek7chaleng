@@ -34,9 +34,29 @@ public class Job {
 
    private String education; // Where did you go to school?
 
+    private long adminCreatorId; // what is the user id of the admin that made this job.
+
+    private Interview interview;
+
     /*
     Start Getters and Setters
      */
+
+    public Interview getInterview() {
+        return interview;
+    }
+
+    public void setInterview(Interview interview) {
+        this.interview = interview;
+    }
+
+    public long getAdminCreatorId() {
+        return adminCreatorId;
+    }
+
+    public void setAdminCreatorId(long adminCreatorId) {
+        this.adminCreatorId = adminCreatorId;
+    }
 
     public Long getId() {
         return id;
@@ -126,7 +146,7 @@ public class Job {
      Start constructors
       */
 
-    public Job(@NotNull String positionTitle, String startDate, String endDate, @NotNull String typeOfJob, @NotNull Double salary, String location, @NotNull String description, @NotNull String keyWord, String education) {
+    public Job(@NotNull String positionTitle, String startDate, String endDate, @NotNull String typeOfJob, @NotNull Double salary, String location, @NotNull String description, @NotNull String keyWord, String education, long adminCreatorId) {
         this.positionTitle = positionTitle;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -136,6 +156,7 @@ public class Job {
         this.description = description;
         this.keyWord = keyWord;
         this.education = education;
+        this.adminCreatorId = adminCreatorId;
     }
 
     public Job() {
