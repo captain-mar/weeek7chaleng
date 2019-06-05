@@ -16,6 +16,10 @@ public class DataLoader implements CommandLineRunner {
 
 
 
+  //delete this before merge
+  @Autowired
+ JobRepo jobRepo;
+
   @Override
   public void run(String... strings) throws Exception{
     roleRepository.save(new Role("USER"));
@@ -36,5 +40,10 @@ public class DataLoader implements CommandLineRunner {
     user.setRoles(Arrays.asList(adminRole));
     userRepository.save(user);
 
+//    /*New job entry*/
+//    Job job = new Job();
+//    job.setPositionTitle("Software Developer");
+//
+//    jobRepo.save(job);
   }
 }

@@ -1,27 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Registration</title>
+    <th:block th:insert="base :: header"></th:block>
+    <style>
+        body{
+            background-image:url("https://res.cloudinary.com/dlj6qreoq/image/upload/v1559506319/Background-Picture-Html2_vzfvpz.jpg") ;
+        }
+        h2 {
+            font:italic 5vw Baskerville,'fantasy';
+            text-align: center;
+        }
+
+    </style>
 </head>
 <body>
-<form>
-    <br>
-    <br>
+
+<div th:replace="base:: nav"></div>
+
+<div class="container">
+    <div class="card border-0 shadow my-5">
+        <div class="card-body p-5">
     <h1>Interviews</h1>
     <table class="table table-borderless">
         <thead></thead>
         <tbody>
         <tr th:each ="interview:${interviews}">
             <th scope="row"></th>
-            <td> <b>[[${interview.job.position}]]</b><br />
-                <i>[[${interview.date}]]</i> | [[${interview.time}]]<br />
-                [[${interview.location}]]<br />
+            <td> <br />
+                <i>[[${interview.date}]]</i> | [[${interview.intTime}]]<br />
+
 
             </td>
         </tr>
         </tbody>
     </table>
-</form>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>
