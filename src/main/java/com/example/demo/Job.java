@@ -113,16 +113,14 @@ public class Job {
         this.description = description;
     }
 
-    public void setKeyWord(String keyWord) { //updated to split up words
-        //this.keyWord = keyWord;
-        List<String> items = Arrays.asList(keyWord.split("\\s*,\\s*"));
-        System.out.println(items);
-
+    public String getKeyWord() {
+        return keyWord;
     }
 
-    public List<String> getKeyWord(List<String> items ) {
-        return items;
+    public void setKeyWord(String keyWord) { // this should not be used check the job methods instead
+        this.keyWord = keyWord;
     }
+
     public String getEducation() {
         return education;
     }

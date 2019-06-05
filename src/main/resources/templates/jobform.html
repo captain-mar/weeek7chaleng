@@ -10,7 +10,7 @@
 <div class="container">
     <div class="card border-0 shadow my-5">
         <div class="card-body p-5">
-            <h4>User Registration</h4>
+            <h4>Post a Job</h4>
 
             <form autocomplete="off"
                   action="#"
@@ -18,39 +18,62 @@
                   th:object="${job}"
                   method="post">
                 <input type="hidden" th:field="*{id}"/>
+
                 <label class="mr-sm-2 mb-0">Job Title </label>
                 <input type="text" id="positionTitle" class="form-control mr-sm-2 mb-2 mb-sm-0"
                        th:field="*{positionTitle}"/>
                 <span th:if="${#fields.hasErrors('positionTitle')}"
                       th:errors="*{positionTitle}">Job Title error</span>
+
+                <label class="mr-sm-2 mb-0">City the job is located in </label>
+                <input type="text" id="location" class="form-control mr-sm-2 mb-2 mb-sm-0"
+                       th:field="*{location}"/>
+                <span th:if="${#fields.hasErrors('location')}"
+                      th:errors="*{location}">location error</span>
+
+                <label class="mr-sm-2 mb-0">Education requirement </label>
+                <input type="text" id="education" class="form-control mr-sm-2 mb-2 mb-sm-0"
+                       th:field="*{education}"/>
+                <span th:if="${#fields.hasErrors('education')}"
+                      th:errors="*{education}">education error</span>
+
                 <label class="mr-sm-2 mb-0">Start Date</label>
                 <input type="text" id="startDate" class="form-control mr-sm-2 mb-2 mb-sm-0"
                        th:field="*{startDate}"/><br/>
                 <span th:if="${#fields.hasErrors('startDate')}"
                       th:errors="*{startDate}">Start Date error</span>
+
                 <label class="mr-sm-2 mb-0">End Date </label>
                 <input type="text" id="email" class="form-control mr-sm-2 mb-2 mb-sm-0"
                        th:field="*{endDate}"/><br/>
                 <span th:if="${#fields.hasErrors('endDate')}"
                       th:errors="*{endDate}">End date error</span>
+
                 <label class="mr-sm-2 mb-0">Type Of Job </label>
                 <input type="text" id="typeOfJob" class="form-control mr-sm-2 mb-2 mb-sm-0"
                        th:field="*{typeOfJob}"/><br/>
                 <span th:if="${#fields.hasErrors('typeOfJob')}"
                       th:errors="*{typeOfJob}">Type of Job error</span>
+
                 <label class="mr-sm-2 mb-0">Salary </label>
-                <input type="password" id="salary" class="form-control mr-sm-2 mb-2 mb-sm-0"
-                       th:field="*{salary}"/><br/>
-                <span th:if="${#fields.hasErrors('salary')}"
-                      th:errors="*{salary}">Salary error</span>
-                <input type="password" id="salary" class="form-control mr-sm-2 mb-2 mb-sm-0"
+                <input type="text" id="salary" class="form-control mr-sm-2 mb-2 mb-sm-0"
                        th:field="*{salary}"/><br/>
                 <span th:if="${#fields.hasErrors('salary')}"
                       th:errors="*{salary}">Salary error</span>
 
+                <label class="mr-sm-2 mb-0">Key Words(Sep with comma) </label>
+                <input type="text" id="keyWord" class="form-control mr-sm-2 mb-2 mb-sm-0"
+                       th:field="*{keyWord}"/><br/>
+                <span th:if="${#fields.hasErrors('keyWord')}"
+                      th:errors="*{keyWord}">keyword error</span>
 
+                <label class="mr-sm-2 mb-0">Job Description </label>
+                <textarea rows="3" id="description" class="form-control mr-sm-2 mb-2 mb-sm-0"
+                       th:field="*{description}"/><br/>
+                <span th:if="${#fields.hasErrors('description')}"
+                      th:errors="*{description}">description error</span>
 
-                <button type="submit" class="btn btn-default">Post Job</button>
+                <input type="submit"  value="Post"/>
 
             </form>
         </div>

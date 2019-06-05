@@ -21,7 +21,14 @@ public class AntController {
     @Autowired
     UserService userService;
 
-//
+    @Autowired
+    RoleRepository roleRepository;
+
+  JobMethods jobMethods ;
+
+
+
+
 //    @PostConstruct
 //    public void filltables(){
 //        Role admin = new Role();
@@ -34,7 +41,7 @@ public class AntController {
 //        roleRepository.save(user);
 //
 //        Role adminRole = roleRepository.findByRole("ADMIN");
-//        Role userRole = roleRepository.findByRole("USER");
+////        Role userRole = roleRepository.findByRole("USER");
 //
 //        User admin2 = new User();
 //        admin2.setEnabled(true);
@@ -44,9 +51,9 @@ public class AntController {
 //        admin2.setEmail("valleganthony@gmail.com");
 //        admin2.setUsername("valleant");
 //        admin2.setPassword("password");
-//
-//    }
 
+//    }
+//
     @GetMapping("/addjob")
     public String messageForm(Model model) {
         model.addAttribute("job", new Job());
@@ -59,7 +66,8 @@ public class AntController {
         if(result.hasErrors()){
             return "jobform";
         }
-
+        String var1 = job.getKeyWord();
+        jobMethods.SplitKeyWords(var1);
         job.setAdminCreatorId(userService.getUser().getId());
         jobRepo.save(job);
         return "redirect:/";
