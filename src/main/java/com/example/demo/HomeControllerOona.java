@@ -40,8 +40,9 @@ public class HomeControllerOona {
 //        }
 //
 //        else {
-        interviewRepository.save(interview);
-        model.addAttribute("message", "Interview Created");
+            interviewRepository.save(interview);
+            model.addAttribute("message", "Interview Created");
+
 //        }
         return "redirect:/interviews";
     }
