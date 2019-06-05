@@ -46,6 +46,10 @@
                 </span>
                         <a th:href="@{/detail/{id}(id=${message.id})}">Details</a>
                     </td>
+                    <p th:text="${message.user.filename}"></p>
+                    <div th:each="res:${message.user.result}">
+                        <p th:text="${res}"></p>
+                    </div>
                 </tr>
             </table>
         </div>
@@ -60,11 +64,16 @@
                         <td th:text="${message.title}"></td>
                         <td th:text="${message.user.username}"></td>
                         <td th:text="${message.postDate}"></td>
+                        <td th:text="${message.user.filename}"></td>
                         <td>
                             <a th:href="@{/update/{id}(id=${message.id})}">Update</a>
                             <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
                             <a th:href="@{/detail/{id}(id=${message.id})}">Details</a>
                         </td>
+                        <p th:text="${message.user.filename}"></p>
+                        <div th:each="res:${message.user.result}">
+                            <p th:text="${res}"></p>
+                        </div>
                     </tr>
                 </table>
 
