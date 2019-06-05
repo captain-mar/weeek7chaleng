@@ -2,7 +2,9 @@ package com.example.demo;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Entity
@@ -31,6 +33,7 @@ public class Job {
 
     @NotNull
     private String keyWord; // key words would be used to match items against user resumes
+    //Key words variable might be changed to a array of words separated by a comma.
 
    private String education; // Where did you go to school?
 
@@ -122,14 +125,16 @@ public class Job {
         this.description = description;
     }
 
-    public String getKeyWord() {
-        return keyWord;
+    public void setKeyWord(String keyWord) { //updated to split up words
+        //this.keyWord = keyWord;
+        List<String> items = Arrays.asList(keyWord.split("\\s*,\\s*"));
+        System.out.println(items);
+
     }
 
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
+    public List<String> getKeyWord(List<String> items ) {
+        return items;
     }
-
     public String getEducation() {
         return education;
     }
@@ -165,4 +170,6 @@ public class Job {
     /*
      End constructors
       */
+
+
 }
