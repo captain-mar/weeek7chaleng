@@ -14,8 +14,7 @@ public class DataLoader implements CommandLineRunner {
   @Autowired
   RoleRepository roleRepository;
 
-  @Autowired
-  MessageRepository courseRepository;
+
 
   @Override
   public void run(String... strings) throws Exception{
