@@ -10,20 +10,18 @@ public class Interview {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotNull
-    @Size(min = 2)
+
     private String date;
 
-    @NotNull
-    @Size(min = 2)
+
+
     private String intTime;
 
-    @NotNull
-    @Size(min = 2)
-    private String intLocation;
+    @OneToOne
+    private Job job;
 
-//    @OneToOne(mappedBy = "job",cascade = CascadeType.ALL)
-//    private Job job;
+    public Interview() {
+    }
 
     public long getId() {
         return id;
@@ -49,19 +47,11 @@ public class Interview {
         this.intTime = intTime;
     }
 
-    public String getIntLocation() {
-        return intLocation;
+    public Job getJob() {
+        return job;
     }
 
-    public void setIntLocation(String intLocation) {
-        this.intLocation = intLocation;
+    public void setJob(Job job) {
+        this.job = job;
     }
-
-//    public Job getJob() {
-//        return job;
-//    }
-//
-//    public void setJob(Job job) {
-//        this.job = job;
-//    }
 }

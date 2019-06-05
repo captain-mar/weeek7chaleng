@@ -35,7 +35,10 @@ public class Job {
     private String keyWord; // key words would be used to match items against user resumes
     //Key words variable might be changed to a array of words separated by a comma.
 
-   private String education; // Where did you go to school?
+    @OneToOne(mappedBy = "job",cascade = CascadeType.ALL)
+    private Interview interview;
+
+    private String education; // Where did you go to school?
 
     private long adminCreatorId; // what is the user id of the admin that made this job.
 
