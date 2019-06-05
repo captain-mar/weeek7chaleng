@@ -39,19 +39,7 @@ public class Job {
 
     private long adminCreatorId; // what is the user id of the admin that made this job.
 
-    private Interview interview;
 
-    /*
-    Start Getters and Setters
-     */
-
-    public Interview getInterview() {
-        return interview;
-    }
-
-    public void setInterview(Interview interview) {
-        this.interview = interview;
-    }
 
     public long getAdminCreatorId() {
         return adminCreatorId;

@@ -4,6 +4,7 @@ package com.example.demo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -32,6 +33,10 @@ public class User {
   @Column(name = "username")
   private String username;
 
+  private String filename;
+
+  private ArrayList<String> result = new ArrayList<>();
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -47,6 +52,22 @@ public class User {
     this.lastName = lastName;
     this.enabled = enabled;
     this.username = username;
+  }
+
+  public String getFilename() {
+    return filename;
+  }
+
+  public void setFilename(String filename) {
+    this.filename = filename;
+  }
+
+  public ArrayList<String> getResult() {
+    return result;
+  }
+
+  public void setResult(ArrayList<String> result) {
+    this.result = result;
   }
 
   public long getId() {
