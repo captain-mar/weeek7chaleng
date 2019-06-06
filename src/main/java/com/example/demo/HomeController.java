@@ -33,11 +33,12 @@ public class HomeController {
     private JavaMailSender sender;
     Path fi; // to check for sent email with
     String fname;
+    String email;
 
     @Autowired
     UserService userService;
     ArrayList<String> arrayList = new ArrayList<>();
-    String email;
+
 
     @GetMapping("/register")
     public String showRegistrationPage(Model model) {
@@ -88,6 +89,7 @@ public class HomeController {
             email = user.getEmail();
             model.addAttribute("message", "User Account Created");
 
+
         }
         return "redirect:/";
     }
@@ -97,13 +99,34 @@ public class HomeController {
         return "login";
     }
 
+
+
     @RequestMapping("/")
-    public String listCourses(Model model) {
+    public String listCourses(Model model){
         model.addAttribute("jobs", jobRepo.findAll());
-        if (userService.getUser() != null) {
+        if(userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
         return "list";
+    }
+
+    @GetMapping("/add")
+    public String messageForm(Model model) {
+        model.addAttribute("job", new Job());
+        return "messageform";
+    }
+
+    @PostMapping("/process")
+    public String processForm(@Valid Job job, BindingResult result){
+
+        if(result.hasErrors()){
+            return "jobform";
+        }
+
+
+        job.setUser(userService.getUser());
+        jobRepo.save(job);
+        return "redirect:/";
     }
 
     public String getCurrentTime() {
@@ -116,7 +139,7 @@ public class HomeController {
 
     }
 
-    @RequestMapping("/send")
+    //@RequestMapping("/send")
     @ResponseBody
     String home() {
         try {
