@@ -81,7 +81,7 @@ public class AntController {
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
-        return "show";
+        return "show2";
         }
 
     @RequestMapping("/update/job/{id}")
