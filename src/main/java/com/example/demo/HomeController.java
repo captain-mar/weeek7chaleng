@@ -26,137 +26,95 @@ import java.util.Scanner;
 public class HomeController {
     User user;
 
-  @Autowired
-  JobRepo jobRepo;
-  MessageRepository messageRepository;
+    @Autowired
+    JobRepo jobRepo;
+
     @Autowired
     private JavaMailSender sender;
-    Path fi ; // to check for sent email with
+    Path fi; // to check for sent email with
     String fname;
 
-  @Autowired
-  UserService userService;
+    @Autowired
+    UserService userService;
     ArrayList<String> arrayList = new ArrayList<>();
     String email;
 
-  @GetMapping("/register")
-  public String showRegistrationPage(Model model){
-    model.addAttribute("user", new User());
-    return "registration";
-  }
-
-  @PostMapping("/register")
-  public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model,@RequestParam("file") MultipartFile file){
-
-    if(result.hasErrors()){
-      return "registration";
+    @GetMapping("/register")
+    public String showRegistrationPage(Model model) {
+        model.addAttribute("user", new User());
+        return "registration";
     }
 
-    else {
-        if (file.isEmpty()) {
-            return "redirect:/register";
-        }
-        try {
+    @PostMapping("/register")
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(file.getOriginalFilename());
-            fi =path;
-            Files.write(path, bytes);
-            String filename = file.getOriginalFilename();
+        if (result.hasErrors()) {
+            return "registration";
+        } else {
+            if (file.isEmpty()) {
+                return "redirect:/register";
+            }
+            try {
 
-            user.setFilename(filename);
-            fname=filename;
-            try (Scanner s = new Scanner(new File(filename)).useDelimiter(" ")) {
-                // \\s* in regular expressions means "any number or whitespaces".
-                // We could've said simply useDelimiter("-") and Scanner would have
-                // included the whitespaces as part of the data it extracted.
-                while (s.hasNext()) {
-                    arrayList.add(s.next());
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(file.getOriginalFilename());
+                fi = path;
+                Files.write(path, bytes);
+                String filename = file.getOriginalFilename();
+
+                user.setFilename(filename);
+                fname = filename;
+                try (Scanner s = new Scanner(new File(filename)).useDelimiter(" ")) {
+                    // \\s* in regular expressions means "any number or whitespaces".
+                    // We could've said simply useDelimiter("-") and Scanner would have
+                    // included the whitespaces as part of the data it extracted.
+                    while (s.hasNext()) {
+                        arrayList.add(s.next());
+                    }
+                } catch (FileNotFoundException e) {
+                    // Handle the potential exception
                 }
+
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+                return "redirect:/register";
+
             }
-            catch (FileNotFoundException e) {
-                // Handle the potential exception
-            }
-
-
-        }catch (IOException e){
-
-            e.printStackTrace();
-
-            return "redirect:/register";
+            user.setResult(arrayList);
+            userService.saveUser(user);
+            email = user.getEmail();
+            model.addAttribute("message", "User Account Created");
 
         }
-        user.setResult(arrayList);
-        userService.saveUser(user);
-        email=user.getEmail();
-        model.addAttribute("message", "User Account Created");
+        return "redirect:/";
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping("/")
+    public String listCourses(Model model) {
+        model.addAttribute("jobs", jobRepo.findAll());
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
+        return "list";
+    }
+
+    public String getCurrentTime() {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return dtf.format(now);
 
     }
-    return "redirect:/";
-  }
-
-  @RequestMapping("/login")
-  public String login(){
-    return "login";
-  }
-
-  @RequestMapping("/")
-  public String listCourses(Model model){
-    model.addAttribute("jobs", jobRepo.findAll());
-    if(userService.getUser() != null) {
-      model.addAttribute("user_id", userService.getUser().getId());
-    }
-    return "list";
-  }
-
-  @GetMapping("/add")
-  public String messageForm(Model model) {
-    model.addAttribute("message", new Message());
-    return "messageform";
-  }
-
-  @PostMapping("/process")
-  public String processForm(@Valid Message message, BindingResult result){
-
-    if(result.hasErrors()){
-      return "messageform";
-    }
-    message.setPostDate(getCurrentTime());
-
-    message.setUser(userService.getUser());
-    messageRepository.save(message);
-    return "redirect:/";
-  }
-
-  @RequestMapping("/detail/{id}")
-  public String showMessage(@PathVariable("id") long id, Model model){
-    model.addAttribute("message", messageRepository.findById(id).get());
-    if(userService.getUser() != null) {
-      model.addAttribute("user_id", userService.getUser().getId());
-    }
-    return "show";
-  }
-
-  @RequestMapping("/update/{id}")
-  public String updateMessage(@PathVariable("id") long id, Model model){
-    model.addAttribute("message", messageRepository.findById(id).get());
-    return "messageform";
-  }
-
-  @RequestMapping("/delete/{id}")
-  public String delMessage(@PathVariable("id") long id){
-    messageRepository.deleteById(id);
-    return "redirect:/";
-  }
-  public String getCurrentTime(){
-
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-
-    LocalDateTime now = LocalDateTime.now();
-
-    return dtf.format(now);
-
-  }
 
     @RequestMapping("/send")
     @ResponseBody
@@ -164,12 +122,12 @@ public class HomeController {
         try {
             sendEmail();
             return "Email Sent!";
-        }catch(Exception ex) {
-            return "Error in sending email: "+ex;
+        } catch (Exception ex) {
+            return "Error in sending email: " + ex;
         }
     }
 
-    private void sendEmail() throws Exception{
+    private void sendEmail() throws Exception {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setTo(email);
@@ -187,16 +145,16 @@ public class HomeController {
         try {
             sendEmails();
             return "Email Sent!";
-        }catch(Exception ex) {
-            return "Error in sending email: "+ex;
+        } catch (Exception ex) {
+            return "Error in sending email: " + ex;
         }
     }
 
-    private void sendEmails() throws Exception{
+    private void sendEmails() throws Exception {
         MimeMessage message = sender.createMimeMessage();
 
         // Enable the multipart flag!
-        MimeMessageHelper helper = new MimeMessageHelper(message,true);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         helper.setTo(email);
         helper.setText("How are you?");
@@ -207,10 +165,6 @@ public class HomeController {
 
         sender.send(message);
     }
-
-
-
-
 
 
 }
