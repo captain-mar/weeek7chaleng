@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +24,20 @@ import java.util.Scanner;
 
 @Controller
 public class HomeController {
+    User user;
 
   @Autowired
   JobRepo jobRepo;
+  MessageRepository messageRepository;
+    @Autowired
+    private JavaMailSender sender;
+    Path fi ; // to check for sent email with
+    String fname;
 
   @Autowired
   UserService userService;
     ArrayList<String> arrayList = new ArrayList<>();
+    String email;
 
   @GetMapping("/register")
   public String showRegistrationPage(Model model){
@@ -48,17 +60,12 @@ public class HomeController {
 
             byte[] bytes = file.getBytes();
             Path path = Paths.get(file.getOriginalFilename());
+            fi =path;
             Files.write(path, bytes);
             String filename = file.getOriginalFilename();
 
             user.setFilename(filename);
-
-            File fff = new File(filename);
-
-            InputStream ff = new FileInputStream(fff);
-
-
-
+            fname=filename;
             try (Scanner s = new Scanner(new File(filename)).useDelimiter(" ")) {
                 // \\s* in regular expressions means "any number or whitespaces".
                 // We could've said simply useDelimiter("-") and Scanner would have
@@ -81,7 +88,9 @@ public class HomeController {
         }
         user.setResult(arrayList);
         userService.saveUser(user);
+        email=user.getEmail();
         model.addAttribute("message", "User Account Created");
+
     }
     return "redirect:/";
   }
@@ -100,9 +109,45 @@ public class HomeController {
     return "list";
   }
 
+  @GetMapping("/add")
+  public String messageForm(Model model) {
+    model.addAttribute("message", new Message());
+    return "messageform";
+  }
 
+  @PostMapping("/process")
+  public String processForm(@Valid Message message, BindingResult result){
 
+    if(result.hasErrors()){
+      return "messageform";
+    }
+    message.setPostDate(getCurrentTime());
 
+    message.setUser(userService.getUser());
+    messageRepository.save(message);
+    return "redirect:/";
+  }
+
+  @RequestMapping("/detail/{id}")
+  public String showMessage(@PathVariable("id") long id, Model model){
+    model.addAttribute("message", messageRepository.findById(id).get());
+    if(userService.getUser() != null) {
+      model.addAttribute("user_id", userService.getUser().getId());
+    }
+    return "show";
+  }
+
+  @RequestMapping("/update/{id}")
+  public String updateMessage(@PathVariable("id") long id, Model model){
+    model.addAttribute("message", messageRepository.findById(id).get());
+    return "messageform";
+  }
+
+  @RequestMapping("/delete/{id}")
+  public String delMessage(@PathVariable("id") long id){
+    messageRepository.deleteById(id);
+    return "redirect:/";
+  }
   public String getCurrentTime(){
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -112,6 +157,59 @@ public class HomeController {
     return dtf.format(now);
 
   }
+
+    @RequestMapping("/send")
+    @ResponseBody
+    String home() {
+        try {
+            sendEmail();
+            return "Email Sent!";
+        }catch(Exception ex) {
+            return "Error in sending email: "+ex;
+        }
+    }
+
+    private void sendEmail() throws Exception{
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setTo(email);
+        //helper.setTo("fikru07@gmail.com");
+        helper.setText("Well Come to job finder.com ");
+        helper.setSubject("registration confirm");
+
+        sender.send(message);
+    }
+
+
+    @RequestMapping("/send2")
+    @ResponseBody
+    String homes() {
+        try {
+            sendEmails();
+            return "Email Sent!";
+        }catch(Exception ex) {
+            return "Error in sending email: "+ex;
+        }
+    }
+
+    private void sendEmails() throws Exception{
+        MimeMessage message = sender.createMimeMessage();
+
+        // Enable the multipart flag!
+        MimeMessageHelper helper = new MimeMessageHelper(message,true);
+
+        helper.setTo(email);
+        helper.setText("How are you?");
+        helper.setSubject("Hi");
+
+        ClassPathResource file = new ClassPathResource("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg");
+        helper.addAttachment("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg", file);
+
+        sender.send(message);
+    }
+
+
+
 
 
 
