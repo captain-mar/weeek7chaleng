@@ -42,8 +42,7 @@ public class Job {
 
     private long adminCreatorId; // what is the user id of the admin that made this job.
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToMany (fetch = FetchType.EAGER)
     private User user;
 
     public User getUser() {

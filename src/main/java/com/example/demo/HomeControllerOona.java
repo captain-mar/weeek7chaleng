@@ -47,8 +47,8 @@ public class HomeControllerOona {
         return "redirect:/interviews";
     }
     @GetMapping("/intQuest")
-    public String Interview(){
-//        model.addAttribute("", new Interview());
+    public String Interview(Model model){
+        model.addAttribute("interview", new Interview());
         return "interviewTemp";
     }
 

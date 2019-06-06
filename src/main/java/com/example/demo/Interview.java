@@ -60,4 +60,28 @@ public class Interview {
     public void setJob(Job job) {
         this.job = job;
     }
+
+    public String getBehQuest1() {
+        return behQuest1;
+    }
+
+    public String getBehQuest2() {
+        return behQuest2;
+    }
+
+    public String getBehQuest3() {
+        return behQuest3;
+    }
+
+    public String getJobQuest1() {
+        return jobQuest1;
+    }
+
+    public String getJobQuest2() {
+        return jobQuest2;
+    }
+
+    public String getJobQuest3() {
+        return jobQuest3;
+    }
 }

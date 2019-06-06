@@ -13,11 +13,11 @@
         <div class="card-body p-5">
             <h4>Interview Questions</h4>
 
-            <form autocomplete="off" action="#" th:action="@{/intQuest}" method="post">
+            <form autocomplete="off" action="#" th:action="@{/intQuest}" th:object="${interview}" method="post">
                   <!--th:object="${user}" method="post">-->
                 <!--<input type="hidden" th:field="*{id}"/>-->
 
-                <label class="mr-sm-2 mb-0">[[${interview.behQuest1}]] </label><br><br>
+                <label th:inline="text" class="mr-sm-2 mb-0">[[${interview.behQuest1}]] </label><br><br>
                 <div class="form-group">
                     <label for="answer2"></label>
                     <textarea class="form-control" id="answer2" rows="6"></textarea>
