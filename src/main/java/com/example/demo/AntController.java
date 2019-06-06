@@ -98,6 +98,12 @@ public class AntController {
 
 
 
+//    @RequestMapping("/anttest")
+//    public String test(Model model, JobMethods methods){
+//
+//
+//        model.addAttribute(methods.compareTool())
+//    }
 
 
 
