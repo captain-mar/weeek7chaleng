@@ -14,6 +14,15 @@ public class Interview {
 
     private String intTime;
 
+    private String behQuest1 = "Tell us a bit about yourself";
+    private String behQuest2 = "Where do you see yourself 5 years";
+    private String behQuest3 = "Give me an example of a time you faced " +
+            "a conflict while working on a team. How did you handle that?";
+
+    private String jobQuest1 = "";
+    private String jobQuest2 = "";
+    private String jobQuest3 = "";
+
     @OneToOne
     private Job job;
 

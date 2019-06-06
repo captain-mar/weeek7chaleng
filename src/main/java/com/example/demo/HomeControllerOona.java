@@ -46,5 +46,25 @@ public class HomeControllerOona {
 //        }
         return "redirect:/interviews";
     }
+    @GetMapping("/intQuest")
+    public String Interview(){
+//        model.addAttribute("", new Interview());
+        return "interviewTemp";
+    }
 
-}
+//    @PostMapping("/intQuest")
+//    public String processInterviewReg( @ModelAttribute("interview") Interview interview, Model model){
+//
+////        if(result.hasErrors()){
+////            return "interviewRegistration";
+////        }
+////
+////        else {
+//        interviewRepository.save(interview);
+//        model.addAttribute("message", "Interview Created");
+//
+////        }
+//        return "redirect:/";
+    }
+
+
