@@ -35,23 +35,25 @@ public class Job {
     private String keyWord; // key words would be used to match items against user resumes
     //Key words variable might be changed to a array of words separated by a comma.
 
-    @OneToOne(mappedBy = "job",cascade = CascadeType.ALL)
-    private Interview interview;
+//    @OneToOne(mappedBy = "job",cascade = CascadeType.ALL)
+//    private Interview interview;
 
     private String education; // Where did you go to school?
 
     private long adminCreatorId; // what is the user id of the admin that made this job.
 
-    @ManyToMany (fetch = FetchType.EAGER)
-    private User user;
+//    @ManyToMany (fetch = FetchType.EAGER)
+//    private User user;
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public long getAdminCreatorId() {
         return adminCreatorId;
