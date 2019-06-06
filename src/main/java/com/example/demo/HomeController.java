@@ -21,7 +21,7 @@ import java.util.Scanner;
 public class HomeController {
 
   @Autowired
-  MessageRepository messageRepository;
+  JobRepo jobRepo;
 
   @Autowired
   UserService userService;
@@ -93,52 +93,16 @@ public class HomeController {
 
   @RequestMapping("/")
   public String listCourses(Model model){
-    model.addAttribute("messages", messageRepository.findAll());
+    model.addAttribute("jobs", jobRepo.findAll());
     if(userService.getUser() != null) {
       model.addAttribute("user_id", userService.getUser().getId());
     }
     return "list";
   }
 
-  @GetMapping("/add")
-  public String messageForm(Model model) {
-    model.addAttribute("message", new Message());
-    return "messageform";
-  }
 
-  @PostMapping("/process")
-  public String processForm(@Valid Message message, BindingResult result){
 
-    if(result.hasErrors()){
-      return "messageform";
-    }
-    message.setPostDate(getCurrentTime());
 
-    message.setUser(userService.getUser());
-    messageRepository.save(message);
-    return "redirect:/";
-  }
-
-  @RequestMapping("/detail/{id}")
-  public String showMessage(@PathVariable("id") long id, Model model){
-    model.addAttribute("message", messageRepository.findById(id).get());
-    if(userService.getUser() != null) {
-      model.addAttribute("user_id", userService.getUser().getId());
-    }
-    return "show";
-  }
-
-  @RequestMapping("/update/{id}")
-  public String updateMessage(@PathVariable("id") long id, Model model){
-    model.addAttribute("message", messageRepository.findById(id).get());
-    return "messageform";
-  }
-
-  @RequestMapping("/delete/{id}")
-  public String delMessage(@PathVariable("id") long id){
-    messageRepository.deleteById(id);
-    return "redirect:/";
-  }
   public String getCurrentTime(){
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");

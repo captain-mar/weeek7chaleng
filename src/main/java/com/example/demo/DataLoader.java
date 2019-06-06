@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
@@ -14,8 +15,10 @@ public class DataLoader implements CommandLineRunner {
   @Autowired
   RoleRepository roleRepository;
 
-  @Autowired
-  MessageRepository courseRepository;
+
+
+
+
 
   //delete this before merge
   @Autowired
@@ -41,10 +44,21 @@ public class DataLoader implements CommandLineRunner {
     user.setRoles(Arrays.asList(adminRole));
     userRepository.save(user);
 
-//    /*New job entry*/
-//    Job job = new Job();
-//    job.setPositionTitle("Software Developer");
+//      Job myjob = new Job();
+//      myjob.setPositionTitle("test");
+//      myjob.setKeyWord("Java, Python, SQL");
 //
-//    jobRepo.save(job);
+//
+//      ArrayList<String> resume = new ArrayList<String>();
+//      resume.add("Java");
+//      resume.add("agile");
+//      resume.add("teamwork");
+//
+//      User testUser = new User();
+//      testUser.setUsername("TestUser");
+//      testUser.setResult(resume);
+//      userRepository.save(testUser);
+//      jobRepo.save(myjob)
+
   }
 }
