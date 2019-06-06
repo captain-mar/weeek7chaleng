@@ -42,10 +42,10 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Collection<Role> roles;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "job_id"))
-  private Collection<Job> jobs;
+//  @ManyToMany(fetch = FetchType.LAZY)
+//  @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
+//          inverseJoinColumns = @JoinColumn(name = "job_id"))
+//  private Collection<Job> jobs;
 
   public User() {
   }

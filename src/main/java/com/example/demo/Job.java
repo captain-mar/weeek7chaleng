@@ -42,16 +42,16 @@ public class Job {
 
     private long adminCreatorId; // what is the user id of the admin that made this job.
 
-    @ManyToMany (fetch = FetchType.EAGER)
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    @ManyToMany (fetch = FetchType.EAGER)
+//    private User user;
+//
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public long getAdminCreatorId() {
         return adminCreatorId;
