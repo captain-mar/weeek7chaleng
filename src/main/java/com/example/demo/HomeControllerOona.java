@@ -1,19 +1,18 @@
 package com.example.demo;
 
 
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
+import java.util.Map;
 
 @Controller
 public class HomeControllerOona {
@@ -22,6 +21,9 @@ public class HomeControllerOona {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CloudinaryConfig cloudc;
 
     @RequestMapping("/interviews")
     public String listMessages(Model model) {
@@ -57,11 +59,12 @@ public class HomeControllerOona {
     }
 
     @PostMapping("/intQuest")
-    public String processInterviewQuestions(@ModelAttribute("interview") Interview interview, Model model) {
-        interviewRepository.save(interview);
+    public String processInterviewQuestions(@ModelAttribute Interview interview,
+                                            @RequestParam("file") MultipartFile file, Model model) {
+
         model.addAttribute("message", "Interview sent");
-        File f = new File("program.txt");
-        model.addAttribute("interview", f);
+        File f = new File("/static");
+
 
         String q1= interview.getBehQuest1();
         String a1= interview.getAnswer1();
@@ -82,24 +85,25 @@ public class HomeControllerOona {
         String a6= interview.getAnswer6();
 
         String content = q1 +a1 +q2 +a2 + q3 +a3 +q4 +a4 +q5 +a5 +q6 +a6;
-
-        try {
-
+        try{
 
 
-            File file = new ClassPathResource("countries.txt").getFile();
+//        try{
+//
+//            FileWriter fw = new FileWriter(f.getAbsoluteFile());
+//            BufferedWriter bw = new BufferedWriter(fw);
+//            bw.write(content);
+//            bw.close();
+//
+//            Map uploadResult = cloudc.upload(file.getBytes(),
+//                    ObjectUtils.asMap("resourcetype", "raw"));
+//            interview.setTranscript(uploadResult.get("https://api.cloudinary.com/v1_1/djinbcfzx/auto/upload").toString());
+//            interviewRepository.save(interview);
 
-
-        if (!f.exists()) {
-            f.createNewFile();
+        }catch(IOException e){
+            e.printStackTrace();
+            return "redirect:/add";
         }
-
-        FileWriter fw = new FileWriter(f.getAbsoluteFile());
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(content);
-        bw.close();
-
-
 
         return "redirect:/";
     }
