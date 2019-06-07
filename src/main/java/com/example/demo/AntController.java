@@ -22,7 +22,6 @@ public class AntController {
     @Autowired
     RoleRepository roleRepository;
 
-  JobMethods jobMethods ;
 
 
 
@@ -78,8 +77,30 @@ public class AntController {
         model.addAttribute("job", jobRepo.findById(id).get());
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
+
         }
+
+
+        //This is the Start of the method implementation.
+        JobMethods jobMethods = new JobMethods();
+        User user = new User(); // making empty objects
+        Job job = new Job();// making empty objects
+        user = userService.getUser();// filling the objects to vars
+        job = jobRepo.findById(id).get();// filling the objects to vars
+        System.out.println(user.getFirstName());//This should print the user's name
+        System.out.println(job.getPositionTitle()); //this should print the job name
+        boolean match = jobMethods.compareTool(user,job); //runs the compare method to make sure user meets 80% threshold.
+        System.out.println(match);// will be true if above 80%
+        model.addAttribute("match",match);//adds the boolean to a model to be used on the web page
+
+        //New section
+        boolean applyForJob = false; // this boolean will become true if the user hits the button to apply for the job
+        //model.addAttribute("apply",applyForJob);
+        System.out.println(applyForJob);
+
+
         return "show2";
+
         }
 
     @RequestMapping("/update/job/{id}")
@@ -94,29 +115,9 @@ public class AntController {
         return "redirect:/";
     }
 
-    @PostMapping("/apply")
-    public String applyForJob(@RequestParam("id") long id, Model model){
-        User user = userService.getUser();
-        Job job = jobRepo.findById(id).get();
-//       model.addAttribute("job", jobRepo.findById(id).get());
-        boolean match = jobMethods.compareTool(user,job);
-        System.out.println(match);
-        if(match == true){
-            return "good";
-        }
-        else {
-            return "bad";
-        }
-
-    }
 
 
-//    @RequestMapping("/anttest")
-//    public String test(Model model, JobMethods methods){
-//
-//
-//        model.addAttribute(methods.compareTool())
-//    }
+
 
 
 

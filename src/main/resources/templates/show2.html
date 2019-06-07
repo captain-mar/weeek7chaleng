@@ -41,11 +41,7 @@
                                 <h5>Developer</h5>
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-6 profile-header-section1 text-right pull-rigth">
-                                <form action="#" th:action="@{/apply}" method="post" >
-                                    <input type="hidden" th:field="*{id}"/>
-                                    <input class="btn btn-primary btn-block" number="id" type="submit"  value="Apply for the Job"/>
-                                <!--<a href="/apply" class="btn btn-primary btn-block" name="id" th:value="">Apply For the Job</a>-->
-                                </form>
+                                <a href="#" class="btn btn-primary btn-block" name="id" th:onclick="'alert(\'a\'); '">Apply For the Job</a>
                             </div>
                         </div>
                     </div>
