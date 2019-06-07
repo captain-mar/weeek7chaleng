@@ -16,9 +16,9 @@ Job job;
 
 
 
-    public List<String> SplitKeyWords(String key) { //updated to split up words
+    public List<String> SplitKeyWords(String key1) { //updated to split up words
 
-        List<String> items = Arrays.asList(key.split("\\s*,\\s*"));
+        List<String> items = Arrays.asList(key1.split("\\s*,\\s*"));
         return items;
     }
 /*
@@ -29,6 +29,7 @@ Job job;
  interview.
  */
 
+
     public boolean compareTool(User user, Job job){
         ArrayList<String> userResume = user.getResult();
         List<String> jobKeywords =SplitKeyWords(job.getKeyWord());
@@ -36,14 +37,14 @@ Job job;
         int keyWordCount = jobKeywords.size();
         for (String word:jobKeywords){
             for (String key:userResume){
-                if (word==key){
+                if (word.equalsIgnoreCase(key)){
                     counter++;
                 }
             }
         }
-        double score=((double)counter/(double)keyWordCount)*100;
+        double mainScore = (keyWordCount*.8);
 
-        if (score>80.00){
+        if ( counter > mainScore){
             return true;
         }
         else {

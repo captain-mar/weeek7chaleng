@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
@@ -25,7 +22,7 @@ public class AntController {
     @Autowired
     RoleRepository roleRepository;
 
-  JobMethods jobMethods ;
+
 
 
 
@@ -80,8 +77,30 @@ public class AntController {
         model.addAttribute("job", jobRepo.findById(id).get());
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
+
         }
+
+
+        //This is the Start of the method implementation.
+        JobMethods jobMethods = new JobMethods();
+        User user = new User(); // making empty objects
+        Job job = new Job();// making empty objects
+        user = userService.getUser();// filling the objects to vars
+        job = jobRepo.findById(id).get();// filling the objects to vars
+        System.out.println(user.getFirstName());//This should print the user's name
+        System.out.println(job.getPositionTitle()); //this should print the job name
+        boolean match = jobMethods.compareTool(user,job); //runs the compare method to make sure user meets 80% threshold.
+        System.out.println(match);// will be true if above 80%
+        model.addAttribute("match",match);//adds the boolean to a model to be used on the web page
+
+        //New section
+        boolean applyForJob = false; // this boolean will become true if the user hits the button to apply for the job
+        //model.addAttribute("apply",applyForJob);
+        System.out.println(applyForJob);
+
+
         return "show2";
+
         }
 
     @RequestMapping("/update/job/{id}")
@@ -98,12 +117,7 @@ public class AntController {
 
 
 
-//    @RequestMapping("/anttest")
-//    public String test(Model model, JobMethods methods){
-//
-//
-//        model.addAttribute(methods.compareTool())
-//    }
+
 
 
 
