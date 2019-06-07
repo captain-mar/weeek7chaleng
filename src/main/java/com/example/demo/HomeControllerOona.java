@@ -12,6 +12,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.Scanner;
+
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 @Controller
@@ -58,89 +74,45 @@ public class HomeControllerOona {
         return "interviewTemp";
     }
 
-//    @PostMapping("/intQuest")
-//    public String processInterviewQuestions(@ModelAttribute Interview interview,
-//                                            @RequestParam("file") MultipartFile file, Model model) {
-//
-//        model.addAttribute("message", "Interview sent");
-//        File f = new File("/static");
-//
-//
-//        String q1= interview.getBehQuest1();
-//        String a1= interview.getAnswer1();
-//
-//        String q2= interview.getBehQuest2();
-//        String a2= interview.getAnswer2();
-//
-//        String q3= interview.getBehQuest3();
-//        String a3= interview.getAnswer3();
-//
-//        String q4= interview.getJobQuest1();
-//        String a4= interview.getAnswer4();
-//
-//        String q5= interview.getJobQuest2();
-//        String a5= interview.getAnswer5();
-//
-//        String q6= interview.getJobQuest3();
-//        String a6= interview.getAnswer6();
-//
-//        String content = q1 +a1 +q2 +a2 + q3 +a3 +q4 +a4 +q5 +a5 +q6 +a6;
-//        try{
-//Cloudinary info
+    @PostMapping("/intQuest")
+    public String homePage(Interview interview, Model model) throws IOException {
+        String q1= interview.getBehQuest1();
+        String a1= interview.getAnswer1();
 
-//        try{
-//
-//            FileWriter fw = new FileWriter(f.getAbsoluteFile());
-//            BufferedWriter bw = new BufferedWriter(fw);
-//            bw.write(content);
-//            bw.close();
-//
-//            Map uploadResult = cloudc.upload(file.getBytes(),
-//                    ObjectUtils.asMap("resourcetype", "raw"));
-//            interview.setTranscript(uploadResult.get("https://api.cloudinary.com/v1_1/djinbcfzx/auto/upload").toString());
-//            interviewRepository.save(interview);
-//cloudinary end
-@PostMapping("/intQuest")
-public String processInterviewQuestions(@ModelAttribute Interview interview, Model model) {
+        String q2= interview.getBehQuest2();
+        String a2= interview.getAnswer2();
 
-    model.addAttribute("message", "Interview sent");
+        String q3= interview.getBehQuest3();
+        String a3= interview.getAnswer3();
 
-//    File f = new File("static/program");
+        String q4= interview.getJobQuest1();
+        String a4= interview.getAnswer4();
 
+        String q5= interview.getJobQuest2();
+        String a5= interview.getAnswer5();
 
-    String q1= interview.getBehQuest1();
-    String a1= interview.getAnswer1();
+        String q6= interview.getJobQuest3();
+        String a6= interview.getAnswer6();
 
-    String q2= interview.getBehQuest2();
-    String a2= interview.getAnswer2();
+        String content = q1 +a1+ q2 +a2 + q3+ a3+ q4+ a4+ q5 +a5 +q6 +a6;
 
-    String q3= interview.getBehQuest3();
-    String a3= interview.getAnswer3();
+        FileWriter fileWriter = new FileWriter("file.txt");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        printWriter.print(content);
+//        printWriter.printf("Product name is %s and its price is %d $", "iPhone", 1000);
+        printWriter.close();
+        File f = new File("file.txt");
+        Map options = ObjectUtils.asMap(
+                "public_id", "file",
+                "resource_type", "raw"
+        );
+        Map uploadResult =
+                cloudc.upload(f, options);
+        return "interviewList";
 
-    String q4= interview.getJobQuest1();
-    String a4= interview.getAnswer4();
-
-    String q5= interview.getJobQuest2();
-    String a5= interview.getAnswer5();
-
-    String q6= interview.getJobQuest3();
-    String a6= interview.getAnswer6();
-
-    String content = q1 +a1 +q2 +a2 + q3 +a3 +q4 +a4 +q5 +a5 +q6 +a6;
-
-    try{
-        FileOutputStream fos = new FileOutputStream(new File("static/program.txt"));
-        DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos));
-        outStream.writeUTF(content);
-//        outStream.close();
-
-        }catch(IOException e){
-            e.printStackTrace();
-            return "redirect:/add";
-        }
-
-        return "redirect:/";
     }
+
+
 }
 
 
