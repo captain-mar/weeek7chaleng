@@ -3,6 +3,7 @@ package com.example.demo;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.stereotype.Service;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+
 
 import javax.validation.Valid;
 import java.io.*;
@@ -87,8 +93,18 @@ public class HomeController {
             userService.saveUser(user);
             email = user.getEmail();
             model.addAttribute("message", "User Account Created");
+            if(email==user.getEmail()){
+                try {
+                    sendEmail();
+                } catch (Exception ex) {
+                    return "Error in sending email: " + ex;
+                }
+
+            }
+
 
         }
+
         return "redirect:/";
     }
 
@@ -98,12 +114,18 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String listCourses(Model model) {
+
+    public String listJobs(Model model) {
         model.addAttribute("jobs", jobRepo.findAll());
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
+        homes();
         return "list";
+
+
+
+
     }
 
     public String getCurrentTime() {
@@ -157,14 +179,18 @@ public class HomeController {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         helper.setTo(email);
-        helper.setText("How are you?");
-        helper.setSubject("Hi");
+        helper.setText("");
+        helper.setSubject("interview and answers document");
 
-        ClassPathResource file = new ClassPathResource("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg");
-        helper.addAttachment("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg", file);
+        //ClassPathResource file = new ClassPathResource(fname);
+        //helper.addAttachment(fname,file);
+        FileSystemResource file = new FileSystemResource(fname);
+        helper.addAttachment(file.getFilename(), file);
 
         sender.send(message);
     }
 
 
 }
+
+
