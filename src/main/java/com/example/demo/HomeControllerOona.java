@@ -58,35 +58,35 @@ public class HomeControllerOona {
         return "interviewTemp";
     }
 
-    @PostMapping("/intQuest")
-    public String processInterviewQuestions(@ModelAttribute Interview interview,
-                                            @RequestParam("file") MultipartFile file, Model model) {
-
-        model.addAttribute("message", "Interview sent");
-        File f = new File("/static");
-
-
-        String q1= interview.getBehQuest1();
-        String a1= interview.getAnswer1();
-
-        String q2= interview.getBehQuest2();
-        String a2= interview.getAnswer2();
-
-        String q3= interview.getBehQuest3();
-        String a3= interview.getAnswer3();
-
-        String q4= interview.getJobQuest1();
-        String a4= interview.getAnswer4();
-
-        String q5= interview.getJobQuest2();
-        String a5= interview.getAnswer5();
-
-        String q6= interview.getJobQuest3();
-        String a6= interview.getAnswer6();
-
-        String content = q1 +a1 +q2 +a2 + q3 +a3 +q4 +a4 +q5 +a5 +q6 +a6;
-        try{
-
+//    @PostMapping("/intQuest")
+//    public String processInterviewQuestions(@ModelAttribute Interview interview,
+//                                            @RequestParam("file") MultipartFile file, Model model) {
+//
+//        model.addAttribute("message", "Interview sent");
+//        File f = new File("/static");
+//
+//
+//        String q1= interview.getBehQuest1();
+//        String a1= interview.getAnswer1();
+//
+//        String q2= interview.getBehQuest2();
+//        String a2= interview.getAnswer2();
+//
+//        String q3= interview.getBehQuest3();
+//        String a3= interview.getAnswer3();
+//
+//        String q4= interview.getJobQuest1();
+//        String a4= interview.getAnswer4();
+//
+//        String q5= interview.getJobQuest2();
+//        String a5= interview.getAnswer5();
+//
+//        String q6= interview.getJobQuest3();
+//        String a6= interview.getAnswer6();
+//
+//        String content = q1 +a1 +q2 +a2 + q3 +a3 +q4 +a4 +q5 +a5 +q6 +a6;
+//        try{
+//Cloudinary info
 
 //        try{
 //
@@ -99,6 +99,40 @@ public class HomeControllerOona {
 //                    ObjectUtils.asMap("resourcetype", "raw"));
 //            interview.setTranscript(uploadResult.get("https://api.cloudinary.com/v1_1/djinbcfzx/auto/upload").toString());
 //            interviewRepository.save(interview);
+//cloudinary end
+@PostMapping("/intQuest")
+public String processInterviewQuestions(@ModelAttribute Interview interview, Model model) {
+
+    model.addAttribute("message", "Interview sent");
+
+//    File f = new File("static/program");
+
+
+    String q1= interview.getBehQuest1();
+    String a1= interview.getAnswer1();
+
+    String q2= interview.getBehQuest2();
+    String a2= interview.getAnswer2();
+
+    String q3= interview.getBehQuest3();
+    String a3= interview.getAnswer3();
+
+    String q4= interview.getJobQuest1();
+    String a4= interview.getAnswer4();
+
+    String q5= interview.getJobQuest2();
+    String a5= interview.getAnswer5();
+
+    String q6= interview.getJobQuest3();
+    String a6= interview.getAnswer6();
+
+    String content = q1 +a1 +q2 +a2 + q3 +a3 +q4 +a4 +q5 +a5 +q6 +a6;
+
+    try{
+        FileOutputStream fos = new FileOutputStream(new File("static/program.txt"));
+        DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos));
+        outStream.writeUTF(content);
+//        outStream.close();
 
         }catch(IOException e){
             e.printStackTrace();
