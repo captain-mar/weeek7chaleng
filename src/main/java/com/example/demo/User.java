@@ -42,6 +42,7 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Collection<Role> roles;
 
+<<<<<<< HEAD
 
 
 
@@ -49,6 +50,12 @@ public class User {
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "job_id"))
   private Collection<Job> jobs;
+=======
+//  @ManyToMany(fetch = FetchType.LAZY)
+//  @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
+//          inverseJoinColumns = @JoinColumn(name = "job_id"))
+//  private Collection<Job> jobs;
+>>>>>>> ece4713a545243ffdf1a2b47d26e21c40486d960
 
   public User() {
   }
