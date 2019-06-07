@@ -50,7 +50,7 @@ public class DataLoader implements CommandLineRunner {
       resume.add("a");
       resume.add("job");
       resume.add("office");
-//      resume.add("postgress");//** take this one out
+      resume.add("postgress");//** take this one out
 
     User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
             "jim");

@@ -24,6 +24,17 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center">
                         <button id="btn-contact" (click)="clearModal()" data-toggle="modal" data-target="#contact" class="btn btn-success btn-block follow">Contactarme</button>
                         <button th:unless="${match}" id="btn-contact" (click)="clearModal()" data-toggle="modal" data-target="#contact" class="btn btn-success btn-block follow">Not selected</button>
+                        <form action="#"
+                              th:action="@{/processjob}"
+                              th:object="${job}"
+                              method="post">
+<!--                            <input type="hidden" id="jobId"-->
+<!--                                   class="form-control mr-sm-2 mb-2 mb-sm-0"-->
+<!--                                   th:field="*{job.firstName}"/>-->
+
+                        </form>
+                        <a href="/intRegister"><button th:if="${match}" id="btn-contact" data-target="#contact" class="btn btn-success btn-block follow">Setup interview</button></a>
+
                     </div>
                     <div class="row user-detail-row">
                         <div class="col-md-12 col-sm-12 user-detail-section2 pull-left">
@@ -47,6 +58,7 @@
                                     <a href="/intRegister" class="btn btn-primary btn-block" name="id" th:onclick="'alert(\'Congrats! please setup an interview.\'); '">Setup Interview</a>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="col-md-12">

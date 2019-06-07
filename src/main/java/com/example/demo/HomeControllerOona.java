@@ -49,7 +49,9 @@ public class HomeControllerOona {
 
     @GetMapping("/intRegister")
     public String InterviewReg(Model model) {
-        model.addAttribute("interview", new Interview());
+        Interview interview = new Interview();
+        interview.setAnswer1("aswer1");
+        model.addAttribute("interview", interview);
         return "interviewRegistration";
     }
 
@@ -63,7 +65,8 @@ public class HomeControllerOona {
 //        else {
         interviewRepository.save(interview);
         model.addAttribute("message", "Interview Created");
-
+//        model.addAttribute("interview", interview);
+//        interviewRepository.save(interview);
 //        }
         return "redirect:/interviews";
     }

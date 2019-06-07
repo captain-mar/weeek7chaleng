@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,22 +21,25 @@ public class Interview {
     private String behQuest3 = "Give me an example of a time you faced " +
             "a conflict while working on a team. How did you handle that?";
 
-    private String jobQuest1 = "one";
-    private String jobQuest2 = "two";
-    private String jobQuest3 = "three";
+    private String jobQuest1 = "one"; // Ant
+    private String jobQuest2 = "two"; // Ant
+    private String jobQuest3 = "three";// Ant
 
     private String answer1;
     private String answer2;
     private String answer3;
     private String answer4;
     private String answer5;
+    private String answer6;
 
     private String transcript;
 
 
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "job_id", nullable = false)
+    @JoinColumn(name = "job_id"
+//            , nullable = false
+    )
     private Job job;
 
 
@@ -42,6 +47,27 @@ public class Interview {
 
     public Interview() {
     }
+
+    //Ant Getter setter
+
+//    @Autowired
+//    Job job;
+
+    public void setJobQuest1(String jobQuest1) {
+        this.jobQuest1 = jobQuest1;
+    }
+
+    public void setJobQuest2(String jobQuest2) {
+        this.jobQuest2 = jobQuest2;
+    }
+
+    public void setJobQuest3(String jobQuest3) {
+        this.jobQuest3 = jobQuest3;
+    }
+
+
+    //Ant Getter setter
+
 
     public long getId() {
         return id;
@@ -154,5 +180,5 @@ public class Interview {
         this.answer6 = answer6;
     }
 
-    private String answer6;
+
 }
