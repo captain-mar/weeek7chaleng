@@ -31,6 +31,9 @@ public class HomeController {
     JobRepo jobRepo;
 
     @Autowired
+    ResumeRepository resumeRepository;
+
+    @Autowired
     private JavaMailSender sender;
     Path fi; // to check for sent email with
     String fname;
@@ -56,7 +59,7 @@ public class HomeController {
             if (file.isEmpty()) {
                 return "redirect:/register";
             }
-            try {
+         /*   try {
 
                 byte[] bytes = file.getBytes();
                 Path path = Paths.get(file.getOriginalFilename());
@@ -84,8 +87,8 @@ public class HomeController {
 
                 return "redirect:/register";
 
-            }
-            user.setResult(arrayList);
+            }*/
+            //user.setResult(arrayList);
             userService.saveUser(user);
             email = user.getEmail();
             model.addAttribute("message", "User Account Created");
@@ -101,7 +104,7 @@ public class HomeController {
 
 
         }
-        return "redirect:/";
+        return "redirect:/addre";
     }
 
     @RequestMapping("/login")
@@ -114,6 +117,7 @@ public class HomeController {
     @RequestMapping("/")
     public String listCourses(Model model){
         model.addAttribute("jobs", jobRepo.findAll());
+        model.addAttribute("resumes", resumeRepository.findAll());
         if(userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
@@ -138,6 +142,61 @@ public class HomeController {
         jobRepo.save(job);
         return "redirect:/";
     }
+
+
+    @GetMapping("/addre")
+    public String resumeform(Model model) {
+        model.addAttribute("resume", new Resume());
+        return "resumeform";
+    }
+
+    @PostMapping("/processre")
+    public String processForm(@Valid @ModelAttribute("resume") Resume resume, BindingResult result, Model model, @RequestParam("file") MultipartFile file){
+
+        if(result.hasErrors()){
+            return "resumeform";
+        }
+        try {
+
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(file.getOriginalFilename());
+            fi = path;
+            Files.write(path, bytes);
+            String filename = file.getOriginalFilename();
+
+            resume.setFilename(filename);
+            fname = filename;
+            try (Scanner s = new Scanner(new File(filename)).useDelimiter(" ")) {
+                // \\s* in regular expressions means "any number or whitespaces".
+                // We could've said simply useDelimiter("-") and Scanner would have
+                // included the whitespaces as part of the data it extracted.
+                while (s.hasNext()) {
+                    arrayList.add(s.next());
+                }
+            } catch (FileNotFoundException e) {
+                // Handle the potential exception
+            }
+
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+            return "redirect:/addre";
+
+        }
+
+        resume.setUser(userService.getUser());
+        resumeRepository.save(resume);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/updatere/{id}")
+    public String updateMessage(@PathVariable("id") long id, Model model){
+        model.addAttribute("resume", resumeRepository.findById(id).get());
+        return "resumeform";
+    }
+
 
     public String getCurrentTime() {
 
@@ -182,6 +241,7 @@ public class HomeController {
             return "Error in sending email: " + ex;
         }
     }
+
 
     private void sendEmails() throws Exception {
         MimeMessage message = sender.createMimeMessage();

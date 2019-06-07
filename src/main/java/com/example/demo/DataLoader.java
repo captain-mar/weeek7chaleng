@@ -17,6 +17,7 @@ public class DataLoader implements CommandLineRunner {
 
 
 
+Resume resume;
 
 
 
@@ -41,7 +42,8 @@ public class DataLoader implements CommandLineRunner {
     User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
             "jim");
     user.setRoles(Arrays.asList(userRole));
-    user.setResult(resume);
+    user.getResume().getResult();
+   // resume.setResult(resume);
     userRepository.save(user);
 
     user = new User("admin@admin.com", "password",

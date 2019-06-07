@@ -33,16 +33,22 @@ public class User {
   @Column(name = "username")
   private String username;
 
-  private String filename;
 
-  private ArrayList<String> result = new ArrayList<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Collection<Role> roles;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_id")
+ private Resume resume;
 
-  public User() {
+  public Resume getResume() {
+    return resume;
+  }
+
+  public void setResume(Resume resume) {
+    this.resume = resume;
   }
 
   public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
@@ -54,21 +60,6 @@ public class User {
     this.username = username;
   }
 
-  public String getFilename() {
-    return filename;
-  }
-
-  public void setFilename(String filename) {
-    this.filename = filename;
-  }
-
-  public ArrayList<String> getResult() {
-    return result;
-  }
-
-  public void setResult(ArrayList<String> result) {
-    this.result = result;
-  }
 
   public long getId() {
     return id;
