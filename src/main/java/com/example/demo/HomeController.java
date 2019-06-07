@@ -3,6 +3,7 @@ package com.example.demo;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,15 @@ public class HomeController {
             userService.saveUser(user);
             email = user.getEmail();
             model.addAttribute("message", "User Account Created");
+
+            if(email==user.getEmail()){
+                try {
+                    sendEmail();
+                } catch (Exception ex) {
+                    return "Error in sending email: " + ex;
+                }
+
+            }
 
 
         }
@@ -181,10 +191,13 @@ public class HomeController {
 
         helper.setTo(email);
         helper.setText("How are you?");
-        helper.setSubject("Hi");
+        helper.setSubject("this your interview page");
 
-        ClassPathResource file = new ClassPathResource("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg");
-        helper.addAttachment("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg", file);
+       // ClassPathResource file = new ClassPathResource("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg");
+        //helper.addAttachment("C:\\Users\\GBTC440011ur\\Desktop\\profile.jpg", file);
+        FileSystemResource file = new FileSystemResource(fname);
+        helper.addAttachment(file.getFilename(), file);
+
 
         sender.send(message);
     }
