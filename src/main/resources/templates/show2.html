@@ -9,20 +9,21 @@
     <title>Title</title>
 </head>
 <body>
+<div th:replace="base :: nav"></div>
 <div class="container main-secction">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 image-section">
-            <img src="https://png.pngtree.com/thumb_back/fw800/back_pic/00/08/57/41562ad4a92b16a.jpg">
+            <img src="https://res.cloudinary.com/valleant/image/upload/v1559915701/hipster_lfmdaa.jpg">
         </div>
         <div class="row user-left-part">
             <div class="col-md-3 col-sm-3 col-xs-12 user-profil-part pull-left">
                 <div class="row ">
                     <div class="col-md-12 col-md-12-sm-12 col-xs-12 user-image text-center">
-                        <img src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png" class="rounded-circle">
+                        <img src="https://res.cloudinary.com/valleant/image/upload/v1559915898/download_lg43ro.png" class="rounded-circle">
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center">
                         <button id="btn-contact" (click)="clearModal()" data-toggle="modal" data-target="#contact" class="btn btn-success btn-block follow">Contactarme</button>
-
+                        <button th:unless="${match}" id="btn-contact" (click)="clearModal()" data-toggle="modal" data-target="#contact" class="btn btn-success btn-block follow">Not selected</button>
                     </div>
                     <div class="row user-detail-row">
                         <div class="col-md-12 col-sm-12 user-detail-section2 pull-left">
@@ -37,11 +38,14 @@
                     <div class="col-md-12 profile-header">
                         <div class="row">
                             <div class="col-md-8 col-sm-6 col-xs-6 profile-header-section1 pull-left">
-                                <h1>Juan Perez</h1>
-                                <h5>Developer</h5>
+                                <h1 th:text="${job.companyName}"></h1>
+                                <h5 th:text="${job.positionTitle}"></h5>
                             </div>
-                            <div class="col-md-4 col-sm-6 col-xs-6 profile-header-section1 text-right pull-rigth">
-                                <a href="#" class="btn btn-primary btn-block" name="id" th:onclick="'alert(\'a\'); '">Apply For the Job</a>
+
+                            <div th:if="${match}">
+                                <div class="col-md-4 col-sm-6 col-xs-6 profile-header-section1 text-right pull-right">
+                                    <a href="/intRegister" class="btn btn-primary btn-block" name="id" th:onclick="'alert(\'Congrats! please setup an interview.\'); '">Setup Interview</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -201,12 +205,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" (click)="openModal()" data-dismiss="modal">Guardar</button>
+                <button type="utton" class="btn btn-primary" (click)="openModal()" data-dismiss="modal">Guardar</button>
             </div>
         </div>
     </div>
 </div>
-
+<div th:replace="base :: footer"></div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
