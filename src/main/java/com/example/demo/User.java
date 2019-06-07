@@ -42,7 +42,10 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Collection<Role> roles;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+
+
+
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "job_id"))
   private Collection<Job> jobs;
@@ -58,7 +61,13 @@ public class User {
     this.enabled = enabled;
     this.username = username;
   }
+  public Collection<Job> getJobs() {
+    return jobs;
+  }
 
+  public void setJobs(Collection<Job> jobs) {
+    this.jobs = jobs;
+  }
   public String getFilename() {
     return filename;
   }

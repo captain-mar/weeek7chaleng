@@ -23,8 +23,12 @@ public class Interview {
     private String jobQuest2 = "";
     private String jobQuest3 = "";
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "job_id", nullable = false)
     private Job job;
+
+
+
 
     public Interview() {
     }
