@@ -18,9 +18,22 @@ public class Resume {
    // private User user;
     private ArrayList<String> result = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Resume(String name) {
+        title = name;
+    }
 
     public Long getId() {
         return id;

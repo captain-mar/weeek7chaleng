@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -24,7 +25,8 @@ Resume resume;
   //delete this before merge
   @Autowired
  JobRepo jobRepo;
-
+@Autowired
+ResumeRepository resumeRepository;
   @Override
   public void run(String... strings) throws Exception{
     roleRepository.save(new Role("USER"));
@@ -32,26 +34,28 @@ Resume resume;
 
     Role adminRole = roleRepository.findByRole("ADMIN");
     Role userRole = roleRepository.findByRole("USER");
+   // Resume resume = resumeRepository.findAl
+
+      Collection<Resume> resume = new ArrayList<>();
 
 
-      ArrayList<String> resume = new ArrayList<String>();
-      resume.add("Java");
-      resume.add("agile");
-      resume.add("teamwork");
+      //resume.add("Java");
+      // resume.add("agile");
+      ///resume.add("teamwork");
 
-    User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
-            "jim");
-    user.setRoles(Arrays.asList(userRole));
-    user.getResume().getResult();
-   // resume.setResult(resume);
-    userRepository.save(user);
+      User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
+              "jim");
+      user.setRoles(Arrays.asList(userRole));
+      user.setResumes(resume);
+      // resume.setResult(resume);
+      userRepository.save(user);
 
-    user = new User("admin@admin.com", "password",
-            "Admin",
-            "User", true,
-            "admin");
-    user.setRoles(Arrays.asList(adminRole));
-    userRepository.save(user);
+      user = new User("admin@admin.com", "password",
+              "Admin",
+              "User", true,
+              "admin");
+      user.setRoles(Arrays.asList(adminRole));
+      userRepository.save(user);
 
       Job myjob = new Job();
       myjob.setPositionTitle("Java Dev");
@@ -62,8 +66,5 @@ Resume resume;
       jobRepo.save(myjob);
 
 
-
-
-
-  }
+    }
 }

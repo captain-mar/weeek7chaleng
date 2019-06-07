@@ -25,7 +25,7 @@ import java.util.Scanner;
 
 @Controller
 public class HomeController {
-    User user;
+    //User user;
 
     @Autowired
     JobRepo jobRepo;
@@ -41,59 +41,30 @@ public class HomeController {
 
     @Autowired
     UserService userService;
+
+
     ArrayList<String> arrayList = new ArrayList<>();
 
 
     @GetMapping("/register")
-    public String showRegistrationPage(Model model) {
+    public String showRegistrationPage(Model model){
         model.addAttribute("user", new User());
         return "registration";
     }
 
     @PostMapping("/register")
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
 
-        if (result.hasErrors()) {
+        if(result.hasErrors()){
             return "registration";
-        } else {
-            if (file.isEmpty()) {
-                return "redirect:/register";
-            }
-         /*   try {
+        }
 
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(file.getOriginalFilename());
-                fi = path;
-                Files.write(path, bytes);
-                String filename = file.getOriginalFilename();
-
-                user.setFilename(filename);
-                fname = filename;
-                try (Scanner s = new Scanner(new File(filename)).useDelimiter(" ")) {
-                    // \\s* in regular expressions means "any number or whitespaces".
-                    // We could've said simply useDelimiter("-") and Scanner would have
-                    // included the whitespaces as part of the data it extracted.
-                    while (s.hasNext()) {
-                        arrayList.add(s.next());
-                    }
-                } catch (FileNotFoundException e) {
-                    // Handle the potential exception
-                }
-
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
-
-                return "redirect:/register";
-
-            }*/
-            //user.setResult(arrayList);
+        else {
             userService.saveUser(user);
             email = user.getEmail();
             model.addAttribute("message", "User Account Created");
-
-            if(email==user.getEmail()){
+        }
+        if(email==user.getEmail()){
                 try {
                     sendEmail();
                 } catch (Exception ex) {
@@ -101,11 +72,71 @@ public class HomeController {
                 }
 
             }
-
-
-        }
         return "redirect:/addre";
     }
+
+//    @GetMapping("/register")
+//    public String showRegistrationPage(Model model) {
+//        model.addAttribute("user",User());
+//        return "registration";
+//    }
+//
+//    @PostMapping("/register")
+//    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+//
+//        if (result.hasErrors()) {
+//            return "registration";
+//        }/* else {
+//            if (file.isEmpty()) {
+//                return "redirect:/register";
+//            }
+//           try {
+//
+//                byte[] bytes = file.getBytes();
+//                Path path = Paths.get(file.getOriginalFilename());
+//                fi = path;
+//                Files.write(path, bytes);
+//                String filename = file.getOriginalFilename();
+//
+//                user.setFilename(filename);
+//                fname = filename;
+//                try (Scanner s = new Scanner(new File(filename)).useDelimiter(" ")) {
+//                    // \\s* in regular expressions means "any number or whitespaces".
+//                    // We could've said simply useDelimiter("-") and Scanner would have
+//                    // included the whitespaces as part of the data it extracted.
+//                    while (s.hasNext()) {
+//                        arrayList.add(s.next());
+//                    }
+//                } catch (FileNotFoundException e) {
+//                    // Handle the potential exception
+//                }
+//
+//
+//            } catch (IOException e) {
+//
+//                e.printStackTrace();
+//
+//                return "redirect:/register";
+//
+//            }*/
+//            //user.setResult(arrayList);
+//            userService.saveUser(user);
+//            email = user.getEmail();
+//            model.addAttribute("message", "User Account Created");
+//
+//            if(email==user.getEmail()){
+//                try {
+//                    sendEmail();
+//                } catch (Exception ex) {
+//                    return "Error in sending email: " + ex;
+//                }
+//
+//            }
+//
+//
+//
+//        return "redirect:/addre";
+//    }
 
     @RequestMapping("/login")
     public String login() {
@@ -151,7 +182,7 @@ public class HomeController {
     }
 
     @PostMapping("/processre")
-    public String processForm(@Valid @ModelAttribute("resume") Resume resume, BindingResult result, Model model, @RequestParam("file") MultipartFile file){
+    public String processForm(@Valid Resume resume, BindingResult result,  @RequestParam("file") MultipartFile file){
 
         if(result.hasErrors()){
             return "resumeform";
@@ -185,8 +216,9 @@ public class HomeController {
             return "redirect:/addre";
 
         }
+        resume.setResult(arrayList);
 
-        resume.setUser(userService.getUser());
+        //resume.setUser(userService.getUser());
         resumeRepository.save(resume);
         return "redirect:/";
     }

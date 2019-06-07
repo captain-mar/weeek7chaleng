@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name="User_Data")
@@ -39,16 +40,20 @@ public class User {
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Collection<Role> roles;
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id")
- private Resume resume;
 
-  public Resume getResume() {
-    return resume;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private Collection<Resume> resumes;
+
+  public Collection<Resume> getResumes() {
+    return resumes;
   }
 
-  public void setResume(Resume resume) {
-    this.resume = resume;
+  public void setResumes(Collection<Resume> resumes) {
+    this.resumes = resumes;
+  }
+
+  public User() {
   }
 
   public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
