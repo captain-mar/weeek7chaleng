@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,68 +21,25 @@ public class Interview {
     private String behQuest3 = "Give me an example of a time you faced " +
             "a conflict while working on a team. How did you handle that?";
 
-    private String jobQuest1 = "one";
-    private String jobQuest2 = "two";
-    private String jobQuest3 = "three";
+    private String jobQuest1 = "one"; // Ant
+    private String jobQuest2 = "two"; // Ant
+    private String jobQuest3 = "three";// Ant
 
     private String answer1;
     private String answer2;
     private String answer3;
     private String answer4;
     private String answer5;
-
-    public String getAnswer1() {
-        return answer1;
-    }
-
-    public void setAnswer1(String answer1) {
-        this.answer1 = answer1;
-    }
-
-    public String getAnswer2() {
-        return answer2;
-    }
-
-    public void setAnswer2(String answer2) {
-        this.answer2 = answer2;
-    }
-
-    public String getAnswer3() {
-        return answer3;
-    }
-
-    public void setAnswer3(String answer3) {
-        this.answer3 = answer3;
-    }
-
-    public String getAnswer4() {
-        return answer4;
-    }
-
-    public void setAnswer4(String answer4) {
-        this.answer4 = answer4;
-    }
-
-    public String getAnswer5() {
-        return answer5;
-    }
-
-    public void setAnswer5(String answer5) {
-        this.answer5 = answer5;
-    }
-
-    public String getAnswer6() {
-        return answer6;
-    }
-
-    public void setAnswer6(String answer6) {
-        this.answer6 = answer6;
-    }
-
     private String answer6;
 
+    private String transcript;
+
+
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "job_id", nullable = false)
+    @JoinColumn(name = "job_id"
+//            , nullable = false
+    )
     private Job job;
 
 
@@ -88,6 +47,27 @@ public class Interview {
 
     public Interview() {
     }
+
+    //Ant Getter setter
+
+//    @Autowired
+//    Job job;
+
+    public void setJobQuest1(String jobQuest1) {
+        this.jobQuest1 = jobQuest1;
+    }
+
+    public void setJobQuest2(String jobQuest2) {
+        this.jobQuest2 = jobQuest2;
+    }
+
+    public void setJobQuest3(String jobQuest3) {
+        this.jobQuest3 = jobQuest3;
+    }
+
+
+    //Ant Getter setter
+
 
     public long getId() {
         return id;
@@ -144,4 +124,61 @@ public class Interview {
     public String getJobQuest3() {
         return jobQuest3;
     }
+    public String getTranscript() {
+        return transcript;
+    }
+
+    public void setTranscript(String transcript) {
+        this.transcript = transcript;
+    }
+
+    public String getAnswer1() {
+        return answer1;
+    }
+
+    public void setAnswer1(String answer1) {
+        this.answer1 = answer1;
+    }
+
+    public String getAnswer2() {
+        return answer2;
+    }
+
+    public void setAnswer2(String answer2) {
+        this.answer2 = answer2;
+    }
+
+    public String getAnswer3() {
+        return answer3;
+    }
+
+    public void setAnswer3(String answer3) {
+        this.answer3 = answer3;
+    }
+
+    public String getAnswer4() {
+        return answer4;
+    }
+
+    public void setAnswer4(String answer4) {
+        this.answer4 = answer4;
+    }
+
+    public String getAnswer5() {
+        return answer5;
+    }
+
+    public void setAnswer5(String answer5) {
+        this.answer5 = answer5;
+    }
+
+    public String getAnswer6() {
+        return answer6;
+    }
+
+    public void setAnswer6(String answer6) {
+        this.answer6 = answer6;
+    }
+
+
 }

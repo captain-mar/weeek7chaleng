@@ -34,9 +34,23 @@ public class DataLoader implements CommandLineRunner {
 
 
       ArrayList<String> resume = new ArrayList<String>();
-      resume.add("Java");
-      resume.add("agile");
-      resume.add("teamwork");
+      resume.add("Java"); //**
+      resume.add("job");
+      resume.add("anthony");
+      resume.add("valle");
+      resume.add("excel");//**
+      resume.add("git");//**
+      resume.add("client");
+      resume.add("millions");
+      resume.add("analytics");
+      resume.add("python");//**
+      resume.add("clients");
+      resume.add("i");
+      resume.add("need");
+      resume.add("a");
+      resume.add("job");
+      resume.add("office");
+      resume.add("postgress");//** take this one out
 
     User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
             "jim");
@@ -52,11 +66,15 @@ public class DataLoader implements CommandLineRunner {
     userRepository.save(user);
 
       Job myjob = new Job();
+      myjob.setCompanyName("Twitter");
       myjob.setPositionTitle("Java Dev");
-      myjob.setKeyWord("Java, Python, SQL");
+      myjob.setKeyWord("Java,Python,SQL,Excel,postgress,git");
       myjob.setTypeOfJob("Full Time");
       myjob.setSalary(100000.00);
       myjob.setDescription("This is a demo job");
+      myjob.setQuestionOne("What is the JVM?");
+      myjob.setQuestionTwo("What is OOP?");
+      myjob.setQuestionThree("what is java?");
       jobRepo.save(myjob);
 
 

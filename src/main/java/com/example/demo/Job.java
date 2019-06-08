@@ -12,6 +12,18 @@ public class Job {
     private Long id; // Job ID. Long auto generated
 
     @NotNull
+    private String companyName;
+
+    @NotNull
+    private String questionOne;
+
+    @NotNull
+    private  String questionTwo;
+
+    @NotNull
+    private String questionThree;
+
+    @NotNull
     private String positionTitle;// Would be the title i.e. "Junior Java dev"
 
     private String startDate; // Start date for the job
@@ -40,6 +52,43 @@ public class Job {
     @ManyToMany(mappedBy = "jobs")
     private Set<User> users = new HashSet<>();
 
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "job")
+    private Interview  interview;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getQuestionOne() {
+        return questionOne;
+    }
+
+    public void setQuestionOne(String questionOne) {
+        this.questionOne = questionOne;
+    }
+
+    public String getQuestionTwo() {
+        return questionTwo;
+    }
+
+    public void setQuestionTwo(String questionTwo) {
+        this.questionTwo = questionTwo;
+    }
+
+    public String getQuestionThree() {
+        return questionThree;
+    }
+
+    public void setQuestionThree(String questionThree) {
+        this.questionThree = questionThree;
+    }
+
     public Set<User> getUsers() {
         return users;
     }
@@ -58,18 +107,12 @@ public class Job {
         this.interview = interview;
     }
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "job")
-    private Interview  interview;
-
 
 
     private String education; // Where did you go to school?
 
     private long adminCreatorId; // what is the user id of the admin that made this job.
 
-<<<<<<< HEAD
     //@ManyToMany (fetch = FetchType.EAGER)
     //private User user;
 
@@ -80,18 +123,7 @@ public class Job {
     public void setUser(User user) {
         this.user = user;
     }
-=======
-//    @ManyToMany (fetch = FetchType.EAGER)
-//    private User user;
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
->>>>>>> ece4713a545243ffdf1a2b47d26e21c40486d960
+
 
     public long getAdminCreatorId() {
         return adminCreatorId;
@@ -189,7 +221,11 @@ public class Job {
      Start constructors
       */
 
-    public Job(@NotNull String positionTitle, String startDate, String endDate, @NotNull String typeOfJob, @NotNull Double salary, String location, @NotNull String description, @NotNull String keyWord, String education, long adminCreatorId) {
+    public Job(@NotNull String companyName, @NotNull String questionOne, @NotNull String questionTwo, @NotNull String questionThree, @NotNull String positionTitle, String startDate, String endDate, @NotNull String typeOfJob, @NotNull Double salary, String location, @NotNull String description, @NotNull String keyWord, User user, Set<User> users, Interview interview, String education, long adminCreatorId) {
+        this.companyName = companyName;
+        this.questionOne = questionOne;
+        this.questionTwo = questionTwo;
+        this.questionThree = questionThree;
         this.positionTitle = positionTitle;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -198,6 +234,9 @@ public class Job {
         this.location = location;
         this.description = description;
         this.keyWord = keyWord;
+        this.user = user;
+        this.users = users;
+        this.interview = interview;
         this.education = education;
         this.adminCreatorId = adminCreatorId;
     }
