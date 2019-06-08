@@ -40,7 +40,7 @@ public class User {
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Collection<Role> roles;
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "resume_id")
  private Resume resume;
 
   public Resume getResume() {
