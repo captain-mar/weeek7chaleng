@@ -17,6 +17,8 @@
         }
 
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -26,9 +28,17 @@
 
     <div class="card border-0 shadow my-5">
         <div class="card-body p-5">
+
+            <div class="nav-item" sec:authorize="isAuthenticated()">
+                <p>Your Resume's</p>
+                <div th:each="resume:${resumes}">
+                    <button type="button" class="btn btn-info" th:text="${resume.title}">  </button>
+                </div>
+            <a href="/addre"  role="button">add more resume</a>
+            </div>
             <h2> Jobs</h2>
 
-            <div sec:authorize="hasAuthority('USER')">
+
 
             <div class="card" th:each ="job:${jobs}">
                 <h5 class="card-header" th:text="${job.typeOfJob}"></h5>
@@ -48,16 +58,11 @@
                     <!--<div th:each="res:${job.user.result}">-->
                         <!--<p th:text="${res}"></p>-->
 
-            </div>
-            <p> <a href="/addre">add more resume</a> </p>
-            <div>
-                <p>Title of your Resume</p>
 
-                <div th:each="resume:${resumes}">
-                <div th:text="${resume.title}"></div>
-                </div>
 
-            </div>
+
+
+
 
 
 

@@ -16,6 +16,8 @@ public class Resume {
    // @ManyToOne(fetch = FetchType.EAGER)
     //@JoinColumn(name = "user_id")
    // private User user;
+
+    @Column(name="email", nullable=false, length=20000)
     private ArrayList<String> result = new ArrayList<>();
 
     @ManyToOne

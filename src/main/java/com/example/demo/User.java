@@ -40,12 +40,6 @@ public class User {
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Collection<Role> roles;
-<<<<<<< HEAD
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "resume_id")
- private Resume resume;
-=======
->>>>>>> f01216257e6be17da6f1a0ef4a129b65fe9cb186
 
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

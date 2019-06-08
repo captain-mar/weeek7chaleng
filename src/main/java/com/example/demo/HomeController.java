@@ -68,11 +68,19 @@ public class HomeController {
                 try {
                     sendEmail();
                 } catch (Exception ex) {
-                    return "Error in sending email: " + ex;
+                   // return "Error in sending email: " + ex;
+                    return "redirect:/emailnotfund";
+
                 }
 
             }
         return "redirect:/addre";
+    }
+
+    @RequestMapping("/emailnotfund")
+    public  String emailnotfound(){
+        return "emailnotfound";
+
     }
 
 //    @GetMapping("/register")
