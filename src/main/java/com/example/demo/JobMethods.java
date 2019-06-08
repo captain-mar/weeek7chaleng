@@ -13,6 +13,8 @@ User user;
 
 @Autowired
 Job job;
+@Autowired
+Resume resume;
 
 
 
@@ -30,7 +32,7 @@ Job job;
  */
 
     public boolean compareTool(User user, Job job){
-        ArrayList<String> userResume = user.getResult();
+        ArrayList<String> userResume =resume.getResult();
         List<String> jobKeywords =SplitKeyWords(job.getKeyWord());
         int counter=0;
         int keyWordCount = jobKeywords.size();

@@ -49,20 +49,15 @@
                         <!--<p th:text="${res}"></p>-->
 
             </div>
-
+            <p> <a href="/addre">add more resume</a> </p>
             <div>
+                <p>Title of your Resume</p>
 
-
-                <th>Title</th>
-
-                    <div th:each="resume:${resumes}">
-                        <div th:text="${resume.title}">
-                        </div>
-
-                            <a th:href="//addre">add more resume</a>
-
-
+                <div th:each="resume:${resumes}">
+                <div th:text="${resume.title}"></div>
                 </div>
+
+            </div>
 
 
 
