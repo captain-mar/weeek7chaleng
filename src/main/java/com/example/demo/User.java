@@ -45,6 +45,11 @@ public class User {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private Collection<Resume> resumes;
 
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private Collection<Job> jobs;
+
   public Collection<Resume> getResumes() {
     return resumes;
   }
@@ -55,6 +60,14 @@ public class User {
 
   public User() {
   }
+
+public Collection<Job> getJobs(){
+    return jobs;
+}
+
+public void setJobs( Collection<Job> jobs){
+    this.jobs=jobs;
+}
 
   public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
     this.email = email;

@@ -72,7 +72,7 @@ public class HomeController {
                 Files.write(path, bytes);
                 String filename = file.getOriginalFilename();
 
-                user.setFilename(filename);
+               // user.setFilename(filename);
                 fname = filename;
                 try (Scanner s = new Scanner(new File(filename)).useDelimiter(" ")) {
                     // \\s* in regular expressions means "any number or whitespaces".
@@ -93,7 +93,7 @@ public class HomeController {
                 return "redirect:/register";
 
             }
-            user.setResult(arrayList);
+            //user.setResult(arrayList);
             userService.saveUser(user);
             email = user.getEmail();
             model.addAttribute("message", "User Account Created");
