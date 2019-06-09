@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -17,13 +18,15 @@ public class DataLoader implements CommandLineRunner {
 
 
 
+Resume resume;
 
 
 
   //delete this before merge
   @Autowired
  JobRepo jobRepo;
-
+@Autowired
+ResumeRepository resumeRepository;
   @Override
   public void run(String... strings) throws Exception{
     roleRepository.save(new Role("USER"));
@@ -31,55 +34,37 @@ public class DataLoader implements CommandLineRunner {
 
     Role adminRole = roleRepository.findByRole("ADMIN");
     Role userRole = roleRepository.findByRole("USER");
+   // Resume resume = resumeRepository.findAl
+
+      Collection<Resume> resume = new ArrayList<>();
 
 
-      ArrayList<String> resume = new ArrayList<String>();
-      resume.add("Java"); //**
-      resume.add("job");
-      resume.add("anthony");
-      resume.add("valle");
-      resume.add("excel");//**
-      resume.add("git");//**
-      resume.add("client");
-      resume.add("millions");
-      resume.add("analytics");
-      resume.add("python");//**
-      resume.add("clients");
-      resume.add("i");
-      resume.add("need");
-      resume.add("a");
-      resume.add("job");
-      resume.add("office");
-      resume.add("postgress");//** take this one out
+      //resume.add("Java");
+      // resume.add("agile");
+      ///resume.add("teamwork");
 
-    User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
-            "jim");
-    user.setRoles(Arrays.asList(userRole));
-    user.setResult(resume);
-    userRepository.save(user);
+      User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
+              "jim");
+      user.setRoles(Arrays.asList(userRole));
+      user.setResumes(resume);
+      // resume.setResult(resume);
+      userRepository.save(user);
 
-    user = new User("admin@admin.com", "password",
-            "Admin",
-            "User", true,
-            "admin");
-    user.setRoles(Arrays.asList(adminRole));
-    userRepository.save(user);
+      user = new User("admin@admin.com", "password",
+              "Admin",
+              "User", true,
+              "admin");
+      user.setRoles(Arrays.asList(adminRole));
+      userRepository.save(user);
 
       Job myjob = new Job();
-      myjob.setCompanyName("Twitter");
       myjob.setPositionTitle("Java Dev");
-      myjob.setKeyWord("Java,Python,SQL,Excel,postgress,git");
+      myjob.setKeyWord("Java, Python, SQL");
       myjob.setTypeOfJob("Full Time");
       myjob.setSalary(100000.00);
       myjob.setDescription("This is a demo job");
-      myjob.setQuestionOne("What is the JVM?");
-      myjob.setQuestionTwo("What is OOP?");
-      myjob.setQuestionThree("what is java?");
       jobRepo.save(myjob);
 
 
-
-
-
-  }
+    }
 }

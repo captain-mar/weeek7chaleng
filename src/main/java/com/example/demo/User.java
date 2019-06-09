@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name="User_Data")
@@ -33,9 +34,7 @@ public class User {
   @Column(name = "username")
   private String username;
 
-  private String filename;
 
-  private ArrayList<String> result = new ArrayList<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
@@ -43,13 +42,16 @@ public class User {
   private Collection<Role> roles;
 
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private Collection<Resume> resumes;
 
+  public Collection<Resume> getResumes() {
+    return resumes;
+  }
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "job_id"))
-  private Collection<Job> jobs;
-
+  public void setResumes(Collection<Resume> resumes) {
+    this.resumes = resumes;
+  }
 
   public User() {
   }
@@ -61,28 +63,6 @@ public class User {
     this.lastName = lastName;
     this.enabled = enabled;
     this.username = username;
-  }
-  public Collection<Job> getJobs() {
-    return jobs;
-  }
-
-  public void setJobs(Collection<Job> jobs) {
-    this.jobs = jobs;
-  }
-  public String getFilename() {
-    return filename;
-  }
-
-  public void setFilename(String filename) {
-    this.filename = filename;
-  }
-
-  public ArrayList<String> getResult() {
-    return result;
-  }
-
-  public void setResult(ArrayList<String> result) {
-    this.result = result;
   }
 
   public long getId() {
