@@ -112,16 +112,6 @@ public class AntController {
             interview.setJob(job);
             System.out.println("this is an interview for " + interview.getJob().getPositionTitle());
             interviewRepository.save(interview);
-
-
-
-
-
-
-
-
-
-
         }
         return "show2";
 

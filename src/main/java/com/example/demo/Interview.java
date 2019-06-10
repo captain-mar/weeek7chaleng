@@ -40,9 +40,8 @@ public class Interview {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
-
-    @OneToOne(mappedBy = "interview")
-    private Job job;
+   @OneToOne(mappedBy = "interview")
+   private Job job;
 
 
     public Job getJob() {
@@ -58,9 +57,9 @@ public class Interview {
         this.behQuest1 = "Tell us a little about yourself.";
         this.behQuest2 = "Where do you see yourself in 5 years?";
         this.behQuest3 = "Give an example of a goal you reached and  how you achieved it.";
-        this.jobQuest1 = job.getQuestionOne();
-        this.jobQuest2 = job.getQuestionTwo();
-        this.jobQuest3 = job.getQuestionThree();
+      //  this.jobQuest1 = job.getQuestionOne();
+      //  this.jobQuest2 = job.getQuestionTwo();
+       // this.jobQuest3 = job.getQuestionThree();
     }
 
     public Interview(String behQuest1, String behQuest2, String behQuest3, String jobQuest1, String jobQuest2, String jobQuest3) {
