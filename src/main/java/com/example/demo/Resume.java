@@ -2,6 +2,7 @@ package com.example.demo;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 
 @Entity
@@ -21,7 +22,7 @@ public class Resume {
     private ArrayList<String> result = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 

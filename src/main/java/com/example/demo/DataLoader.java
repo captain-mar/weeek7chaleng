@@ -36,7 +36,7 @@ ResumeRepository resumeRepository;
     Role userRole = roleRepository.findByRole("USER");
    // Resume resume = resumeRepository.findAl
 
-      Collection<Resume> resume = new ArrayList<>();
+      //Collection<Resume> resume = new ArrayList<>();
 
 
       //resume.add("Java");
@@ -46,7 +46,7 @@ ResumeRepository resumeRepository;
       User user = new User("jim@jim.com", "password", "Jim", "Jimmerson", true,
               "jim");
       user.setRoles(Arrays.asList(userRole));
-      user.setResumes(resume);
+     // user.setResumes(resume);
       // resume.setResult(resume);
       userRepository.save(user);
 
@@ -58,12 +58,15 @@ ResumeRepository resumeRepository;
       userRepository.save(user);
 
       Job myjob = new Job();
+      myjob.setCompanyName("AMAZON");
       myjob.setPositionTitle("Java Dev");
       myjob.setKeyWord("Java, Python, SQL");
       myjob.setTypeOfJob("Full Time");
       myjob.setSalary(100000.00);
       myjob.setDescription("This is a demo job");
       jobRepo.save(myjob);
+
+      user.setJobs(Arrays.asList(myjob));
 
 
     }

@@ -4,6 +4,7 @@ package com.example.demo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @NotNull
   private long id;
 
   @Column(name = "email", nullable = false)
@@ -42,21 +44,32 @@ public class User {
   private Collection<Role> roles;
 
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private Collection<Resume> resumes;
-
-  @ManyToMany(fetch = FetchType.EAGER)
+ // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+ // private Collection<Resume> resumes;
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "role_id"))
+          inverseJoinColumns = @JoinColumn(name = "job_id"))
   private Collection<Job> jobs;
 
-  public Collection<Resume> getResumes() {
-    return resumes;
-  }
+    public Set<Resume> getResumes() {
+        return resumes;
+    }
 
-  public void setResumes(Collection<Resume> resumes) {
-    this.resumes = resumes;
-  }
+    public void setResumes(Set<Resume> resumes) {
+        this.resumes = resumes;
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Resume> resumes;
+
+
+    //public Collection<Resume> getResumes() {
+  //  return resumes;
+ // }
+
+  //public void setResumes(Collection<Resume> resumes) {
+  //  this.resumes = resumes;
+  //}
 
   public User() {
   }

@@ -30,11 +30,16 @@
         <div class="card-body p-5">
 
             <div class="nav-item" sec:authorize="isAuthenticated()">
-                <p>Your Resume's</p>
+
+
                 <div th:each="resume:${resumes}">
+                    <p>Your Resume's</p>
+                <span th:if="${user_id == resume.user.id}">
                     <button type="button" class="btn btn-info" th:text="${resume.title}">  </button>
+
+                </span>
                 </div>
-            <a href="/addre"  role="button">add more resume</a>
+        </div>
             </div>
             <h2> Jobs</h2>
 

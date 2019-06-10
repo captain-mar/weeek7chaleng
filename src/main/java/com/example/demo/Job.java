@@ -14,16 +14,16 @@ public class Job {
     @NotNull
     private String companyName;
 
-    @NotNull
+    //@NotNull
     private String questionOne;
 
-    @NotNull
+    //@NotNull
     private  String questionTwo;
 
-    @NotNull
+   // @NotNull
     private String questionThree;
 
-    @NotNull
+   // @NotNull
     private String positionTitle;// Would be the title i.e. "Junior Java dev"
 
     private String startDate; // Start date for the job
