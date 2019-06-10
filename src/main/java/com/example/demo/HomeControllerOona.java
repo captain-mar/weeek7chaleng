@@ -4,12 +4,16 @@ package com.example.demo;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 import java.io.*;
 import java.nio.file.Files;
@@ -37,6 +41,12 @@ public class HomeControllerOona {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private JavaMailSender sender;
+
+    String fname;
+    String email;
 
     @Autowired
     CloudinaryConfig cloudc;
@@ -78,7 +88,7 @@ public class HomeControllerOona {
     }
 
     @PostMapping("/intQuest")
-    public String homePage(Interview interview, Model model) throws IOException {
+    public String homePage(Interview interview, Model model,@ModelAttribute("user") User user) throws IOException {
         String q1= interview.getBehQuest1();
         String a1= interview.getAnswer1();
 
@@ -109,10 +119,50 @@ public class HomeControllerOona {
                 "public_id", "file",
                 "resource_type", "raw"
         );
+        email=user.getEmail();
+        if(email==user.getEmail()){
+            try {
+                sendEmails();
+            } catch (Exception ex) {
+                // return "Error in sending email: " + ex;
+                return "/email";
+            }
+        }
         Map uploadResult =
                 cloudc.upload(f, options);
+        fname= uploadResult.get("url").toString();
         return "interviewList";
 
+
+    }
+
+
+    @RequestMapping("/send2")
+    @ResponseBody
+    String homes() {
+        try {
+            sendEmails();
+            return "Email Sent!";
+        } catch (Exception ex) {
+            return "Error in sending email: " + ex;
+        }
+    }
+
+    private void sendEmails() throws Exception {
+        MimeMessage message = sender.createMimeMessage();
+        // Enable the multipart flag!
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(email);
+        helper.setText("");
+        helper.setSubject("interview and answers document");
+
+        //ClassPathResource file = new ClassPathResource(fname);
+        //helper.addAttachment(fname,file);
+        FileSystemResource file = new FileSystemResource(fname);
+        helper.addAttachment(file.getFilename(), file);
+
+        sender.send(message);
     }
 
 
