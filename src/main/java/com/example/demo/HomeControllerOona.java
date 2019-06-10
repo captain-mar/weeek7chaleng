@@ -132,6 +132,7 @@ public class HomeControllerOona {
                 cloudc.upload(f, options);
         fname= uploadResult.get("url").toString();
         return "interviewList";
+        //return "redirect:/interviews";
 
 
     }
