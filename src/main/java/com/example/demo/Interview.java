@@ -60,9 +60,9 @@ public class Interview {
         this.behQuest1 = "Tell us a little about yourself.";
         this.behQuest2 = "Where do you see yourself in 5 years?";
         this.behQuest3 = "Give an example of a goal you reached and  how you achieved it.";
-      //  this.jobQuest1 = job.getQuestionOne();
-      //  this.jobQuest2 = job.getQuestionTwo();
-       // this.jobQuest3 = job.getQuestionThree();
+        this.jobQuest1 = "Explain what OOP mean";
+        this.jobQuest2 = "What is the JVM?";
+        this.jobQuest3 = "What is the difference an abstract class and an interface?";
     }
 
     public Interview(String behQuest1, String behQuest2, String behQuest3, String jobQuest1, String jobQuest2, String jobQuest3) {

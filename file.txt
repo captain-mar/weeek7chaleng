@@ -1,1 +1,1 @@
-Tell us a bit about yourselfnullWhere do you see yourself 5 yearsnullGive me an example of a time you faced a conflict while working on a team. How did you handle that?nullonenulltwonullthreenull
+Tell us a little about yourself.nullWhere do you see yourself in 5 years?nullGive an example of a goal you reached and  how you achieved it.nullExplain what OOP meannullWhat is the JVM?nullWhat is the difference an abstract class and an interface?null

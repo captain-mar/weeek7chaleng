@@ -114,7 +114,7 @@ public class HomeControllerOona {
         );
         Map uploadResult =
                 cloudc.upload(f, options);
-        return "redirect:/interviews";
+        return "redirect:/";
 
     }
 

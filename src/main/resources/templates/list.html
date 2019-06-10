@@ -31,12 +31,12 @@
 
             <div class="nav-item" sec:authorize="isAuthenticated()">
 
-
+                <p>Your Resume's</p>
                 <div th:each="resume:${resumes}">
                   <!-- <div th:each = "res:${resume.result}">
                         <p th:text="${res}"></p>
                     </div> -->
-                    <p>Your Resume's</p>
+
                 <span th:if="${user_id == resume.user.id}">
                     <button type="button" class="btn btn-info" th:text="${resume.title}">  </button>
 
