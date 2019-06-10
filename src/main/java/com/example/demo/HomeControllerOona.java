@@ -4,12 +4,15 @@ package com.example.demo;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 import java.io.*;
 import java.nio.file.Files;
@@ -41,33 +44,33 @@ public class HomeControllerOona {
     @Autowired
     CloudinaryConfig cloudc;
 
+    @Autowired
+    JobRepo jobRepo;
+
     @RequestMapping("/interviews")
-    public String listMessages(Model model) {
+    public String listInterviews( Model model) {
+//        model.addAttribute("job", jobRepo.findAll());
         model.addAttribute("interviews", interviewRepository.findAll());
+
         return "interviewList";
     }
 
+
     @GetMapping("/intRegister")
-    public String InterviewReg(Model model) {
-        Interview interview = new Interview();
-        interview.setAnswer1("aswer1");
-        model.addAttribute("interview", interview);
+    public String interviewRegistrationForm(Model model){
+        model.addAttribute("jobs", jobRepo.findAll());
+        model.addAttribute("interview", new Interview());
         return "interviewRegistration";
+
     }
-
-    @PostMapping("/intRegister")
-    public String processInterviewReg(@ModelAttribute("interview") Interview interview, Model model) {
-
-//        if(result.hasErrors()){
-//            return "interviewRegistration";
-//        }
-//
-//        else {
+    @PostMapping("/processIntRegister")
+    public String processInterviewReg(@ModelAttribute Interview interview, Model model) {
+        model.addAttribute("jobs", jobRepo.findAll());
+        model.addAttribute("interviews" ,interviewRepository.findAll());
+        User user = userService.getUser();
+        interview.setUser(user);
         interviewRepository.save(interview);
-        model.addAttribute("message", "Interview Created");
-//        model.addAttribute("interview", interview);
-//        interviewRepository.save(interview);
-//        }
+
         return "redirect:/interviews";
     }
 
@@ -111,7 +114,7 @@ public class HomeControllerOona {
         );
         Map uploadResult =
                 cloudc.upload(f, options);
-        return "interviewList";
+        return "redirect:/interviews";
 
     }
 
