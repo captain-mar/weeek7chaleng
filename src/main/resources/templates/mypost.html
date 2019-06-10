@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:insert="base :: header"></th:block>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body{
+            background-image:url("https://res.cloudinary.com/dlj6qreoq/image/upload/v1559506319/Background-Picture-Html2_vzfvpz.jpg") ;
+        }
+        h2 {
+            font:italic 5vw Baskerville,'fantasy';
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<div th:replace="base :: nav"></div>
+
+<div class="container">
+
+    <div class="card border-0 shadow my-5">
+        <div class="card-body p-5">
+            <h2> My Jobs</h2>
+
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <h3> Jobs posted by you </h3>
+                <div class="card" th:each ="result:${results}">
+                    <h5 class="card-header" th:text="${result.typeOfJob}"></h5>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${result.positionTitle}"></h5>
+                        <p class="card-text" th:text="${result.description}"></p>
+                        <a href="#" class="btn btn-primary" th:href="@{admin/detail/job/{id}(id=${job.id})}">View</a>
+                        <a href="#" class="btn btn-primary" th:href="@{/update/job/{id}(id=${job.id})}">Update</a>
+                        <a href="#" class="btn btn-primary" th:href="@{/delete/job/{id}(id=${job.id})}">Delete</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="base :: footer"></div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -30,7 +30,10 @@ import java.util.Scanner;
 
 @Controller
 public class HomeController {
+
     User user;
+
+    Job job;
 
     @Autowired
     JobRepo jobRepo;
@@ -114,13 +117,20 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-
     public String listJobs(Model model) {
         model.addAttribute("jobs", jobRepo.findAll());
+
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
+            long id = userService.getUser().getId();
+            model.addAttribute("results",jobRepo.findByAdminCreatorId(id));
         }
+
+
+
         homes();
+
+
         return "list";
 
 

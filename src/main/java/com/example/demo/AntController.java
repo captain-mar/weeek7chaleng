@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -79,9 +80,23 @@ public class AntController {
         return "redirect:/";
     }
 
+    @RequestMapping("admin/detail/job/{id}")
+    public String adminViewJob(@PathVariable("id") long id, Model model) {
+        model.addAttribute("job", jobRepo.findById(id).get());
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+
+        }
+        return "show2";
+    }
+
+
+
+
+
 
     @RequestMapping("/detail/job/{id}")
-    public String showMessage(@PathVariable("id") long id, Model model) {
+    public String applyToJob(@PathVariable("id") long id, Model model) {
         model.addAttribute("job", jobRepo.findById(id).get());
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
@@ -94,7 +109,7 @@ public class AntController {
         //User user = new User(); // making empty objects
         Job job = new Job();// making empty objects
         User  user = userService.getUser();// filling the objects to vars
-        job = jobRepo.findById(id).get();// filling the objects to vars
+        job = jobRepo.findById(id).get();// finding object in DB and filling in var
         System.out.println(user.getFirstName());//This should print the user's name
         System.out.println(job.getPositionTitle()); //this should print the job name
         boolean match = jobMethods.compareTool(user,job); //runs the compare method to make sure user meets 80% threshold.
@@ -102,25 +117,28 @@ public class AntController {
         model.addAttribute("match",match);//adds the boolean to a model to be used on the web page
 
         //New section to make the interview
+        boolean interviewBool = false;
         if (match==true) {
+            interviewBool =true;
             long updateID = userService.getUser().getId();
-            User userOne = userRepository.findById(updateID).get();
-            System.out.println(userOne.getFirstName());
-            System.out.println(userOne.getUsername());
-            userOne.setJobs(Arrays.asList(job)); // a user now has a job.
+            user = userRepository.findById(updateID).get();
+            System.out.println(user.getFirstName());
+            System.out.println(user.getUsername());
+            user.setJobs(Arrays.asList(job)); // a user now has a job.
             Interview interview = new Interview();
             interview.setJob(job);
+            System.out.println(interview.getId());
             System.out.println("this is an interview for " + interview.getJob().getPositionTitle());
-            interviewRepository.save(interview);
 
+            model.addAttribute("interview",interviewBool); // this is the boolean value that will let us know whether
+            // -> the form should be displayed for an interview.
 
-
-
-
-
-
-
-
+            // Sub section for the interview class. Will be sending the three technical questions to the interview class
+             interview.setJobQuest1(job.getQuestionOne());
+             interview.setJobQuest2(job.getQuestionTwo());
+             interview.setJobQuest3(job.getQuestionThree());
+             userRepository.save(user);
+             interviewRepository.save(interview);
 
         }
         return "show2";
@@ -138,6 +156,23 @@ public class AntController {
         jobRepo.deleteById(id);
         return "redirect:/";
     }
+
+
+    @RequestMapping("/mypost")// <-- Call back all posts made by user.
+    public String profilePage(Model model){
+        long creatorID= userService.getUser().getId();
+        ArrayList<Job> results =(ArrayList<Job>) jobRepo.findByAdminCreatorId(creatorID);
+
+
+        model.addAttribute("user", userService.getUser().getId());
+        model.addAttribute("results",results);
+
+
+
+
+        return "mypost";
+    }
+
 
 
 //
