@@ -40,7 +40,10 @@ public class Interview {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
-   @OneToOne(mappedBy = "interview")
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "interview")
    private Job job;
 
 

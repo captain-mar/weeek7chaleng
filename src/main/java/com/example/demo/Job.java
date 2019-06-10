@@ -52,9 +52,8 @@ public class Job {
     @ManyToMany(mappedBy = "jobs")
     private Set<User> users = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "job")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="job_id")
     private Interview  interview;
 
     public String getCompanyName() {

@@ -5,7 +5,6 @@ import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,41 +42,35 @@ public class HomeControllerOona {
     UserService userService;
 
     @Autowired
-    private JavaMailSender sender;
-
-    String fname;
-    String email;
-
-    @Autowired
     CloudinaryConfig cloudc;
 
+    @Autowired
+    JobRepo jobRepo;
+
     @RequestMapping("/interviews")
-    public String listMessages(Model model) {
+    public String listInterviews( Model model) {
+// model.addAttribute("job", jobRepo.findAll());
         model.addAttribute("interviews", interviewRepository.findAll());
+
         return "interviewList";
     }
 
+
     @GetMapping("/intRegister")
-    public String InterviewReg(Model model) {
-        Interview interview = new Interview();
-        interview.setAnswer1("aswer1");
-        model.addAttribute("interview", interview);
+    public String interviewRegistrationForm(Model model){
+        model.addAttribute("jobs", jobRepo.findAll());
+        model.addAttribute("interview", new Interview());
         return "interviewRegistration";
+
     }
-
-    @PostMapping("/intRegister")
-    public String processInterviewReg(@ModelAttribute("interview") Interview interview, Model model) {
-
-//        if(result.hasErrors()){
-//            return "interviewRegistration";
-//        }
-//
-//        else {
+    @PostMapping("/processIntRegister")
+    public String processInterviewReg(@ModelAttribute Interview interview, Model model) {
+        model.addAttribute("jobs", jobRepo.findAll());
+        model.addAttribute("interviews" ,interviewRepository.findAll());
+        User user = userService.getUser();
+        interview.setUser(user);
         interviewRepository.save(interview);
-        model.addAttribute("message", "Interview Created");
-//        model.addAttribute("interview", interview);
-//        interviewRepository.save(interview);
-//        }
+
         return "redirect:/interviews";
     }
 
@@ -88,7 +81,7 @@ public class HomeControllerOona {
     }
 
     @PostMapping("/intQuest")
-    public String homePage(Interview interview, Model model,@ModelAttribute("user") User user) throws IOException {
+    public String homePage(Interview interview, Model model) throws IOException {
         String q1= interview.getBehQuest1();
         String a1= interview.getAnswer1();
 
@@ -112,61 +105,19 @@ public class HomeControllerOona {
         FileWriter fileWriter = new FileWriter("file.txt");
         PrintWriter printWriter = new PrintWriter(fileWriter);
         printWriter.print(content);
-//        printWriter.printf("Product name is %s and its price is %d $", "iPhone", 1000);
+// printWriter.printf("Product name is %s and its price is %d $", "iPhone", 1000);
         printWriter.close();
         File f = new File("file.txt");
         Map options = ObjectUtils.asMap(
                 "public_id", "file",
                 "resource_type", "raw"
         );
-        email=user.getEmail();
-        if(email==user.getEmail()){
-            try {
-                sendEmails();
-            } catch (Exception ex) {
-                // return "Error in sending email: " + ex;
-                return "/email";
-            }
-        }
         Map uploadResult =
                 cloudc.upload(f, options);
-        fname= uploadResult.get("url").toString();
-        return "interviewList";
-        //return "redirect:/interviews";
+        return "redirect:/interviews";
 
-
-    }
-
-
-    @RequestMapping("/send2")
-    @ResponseBody
-    String homes() {
-        try {
-            sendEmails();
-            return "Email Sent!";
-        } catch (Exception ex) {
-            return "Error in sending email: " + ex;
-        }
-    }
-
-    private void sendEmails() throws Exception {
-        MimeMessage message = sender.createMimeMessage();
-        // Enable the multipart flag!
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        helper.setTo(email);
-        helper.setText("");
-        helper.setSubject("interview and answers document");
-
-        //ClassPathResource file = new ClassPathResource(fname);
-        //helper.addAttachment(fname,file);
-        FileSystemResource file = new FileSystemResource(fname);
-        helper.addAttachment(file.getFilename(), file);
-
-        sender.send(message);
     }
 
 
 }
-
 

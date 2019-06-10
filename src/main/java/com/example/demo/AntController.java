@@ -1,3 +1,4 @@
+
 package com.example.demo;
 
 import net.bytebuddy.asm.Advice;
@@ -9,26 +10,27 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-@Controller
-public class AntController {
+    @Controller
+    public class AntController {
 
-    @Autowired
-    JobRepo jobRepo;
+        @Autowired
+        JobRepo jobRepo;
 
-    @Autowired
-    UserService userService;
+        @Autowired
+        UserService userService;
 
-    @Autowired
-    RoleRepository roleRepository;
+        @Autowired
+        RoleRepository roleRepository;
 
-    @Autowired
-    UserRepository userRepository;
+        @Autowired
+        UserRepository userRepository;
 
-    @Autowired
-    InterviewRepository interviewRepository;
+        @Autowired
+        InterviewRepository interviewRepository;
 
 
 
@@ -58,76 +60,120 @@ public class AntController {
 //        admin2.setUsername("valleant");
 //        admin2.setPassword("password");
 
-//    }
+        //    }
 //
-    @GetMapping("/addjob")
-    public String messageForm(Model model) {
-        model.addAttribute("job", new Job());
-        return "jobform";
-    }
-
-    @PostMapping("/processjob")
-    public String processForm(@Valid Job job, BindingResult result){
-
-        if(result.hasErrors()){
+        @GetMapping("/addjob")
+        public String messageForm(Model model) {
+            model.addAttribute("job", new Job());
             return "jobform";
         }
+
+        @PostMapping("/processjob")
+        public String processForm(@Valid Job job, BindingResult result){
+
+            if(result.hasErrors()){
+                return "jobform";
+            }
 //        String var1 = job.getKeyWord();
 //        jobMethods.SplitKeyWords(var1);
-        job.setAdminCreatorId(userService.getUser().getId());
-        jobRepo.save(job);
-        return "redirect:/";
-    }
+            job.setAdminCreatorId(userService.getUser().getId());
+            jobRepo.save(job);
+            return "redirect:/";
+        }
 
+        @RequestMapping("admin/detail/job/{id}")
+        public String adminViewJob(@PathVariable("id") long id, Model model) {
+            model.addAttribute("job", jobRepo.findById(id).get());
+            if (userService.getUser() != null) {
+                model.addAttribute("user_id", userService.getUser().getId());
 
-    @RequestMapping("/detail/job/{id}")
-    public String showMessage(@PathVariable("id") long id, Model model) {
-        model.addAttribute("job", jobRepo.findById(id).get());
-        if (userService.getUser() != null) {
-            model.addAttribute("user_id", userService.getUser().getId());
-
+            }
+            return "show2";
         }
 
 
-        //This is the Start of the method implementation.
-        JobMethods jobMethods = new JobMethods();
-        //User user = new User(); // making empty objects
-        Job job = new Job();// making empty objects
-        User  user = userService.getUser();// filling the objects to vars
-        job = jobRepo.findById(id).get();// filling the objects to vars
-        System.out.println(user.getFirstName());//This should print the user's name
-        System.out.println(job.getPositionTitle()); //this should print the job name
-        boolean match = jobMethods.compareTool(user,job); //runs the compare method to make sure user meets 80% threshold.
-        System.out.println(match);// will be true if above 80%
-        model.addAttribute("match",match);//adds the boolean to a model to be used on the web page
 
-        //New section to make the interview
-        if (match==true) {
-            long updateID = userService.getUser().getId();
-            User userOne = userRepository.findById(updateID).get();
-            System.out.println(userOne.getFirstName());
-            System.out.println(userOne.getUsername());
-            userOne.setJobs(Arrays.asList(job)); // a user now has a job.
-            Interview interview = new Interview();
-            interview.setJob(job);
-            System.out.println("this is an interview for " + interview.getJob().getPositionTitle());
-            interviewRepository.save(interview);
+
+
+
+        @RequestMapping("/detail/job/{id}")
+        public String applyToJob(@PathVariable("id") long id, Model model) {
+            model.addAttribute("job", jobRepo.findById(id).get());
+            if (userService.getUser() != null) {
+                model.addAttribute("user_id", userService.getUser().getId());
+
+            }
+            //This is the Start of the method implementation.
+            JobMethods jobMethods = new JobMethods();
+            //User user = new User(); // making empty objects
+            Job job = new Job();// making empty objects
+            User  user = userService.getUser();// filling the objects to vars
+            job = jobRepo.findById(id).get();// finding object in DB and filling in var
+            System.out.println(user.getFirstName());//This should print the user's name
+            System.out.println(job.getPositionTitle()); //this should print the job name
+            boolean match = jobMethods.compareTool(user,job); //runs the compare method to make sure user meets 80% threshold.
+            System.out.println(match);// will be true if above 80%
+            model.addAttribute("match",match);//adds the boolean to a model to be used on the web page
+
+
+            //New section to make the interview
+            boolean interviewBool = false;
+            if (match==true) {
+                interviewBool =true;
+                long updateID = userService.getUser().getId();
+                user = userRepository.findById(updateID).get();
+                System.out.println(user.getFirstName());
+                System.out.println(user.getUsername());
+                user.setJobs(Arrays.asList(job)); // a user now has a job.
+
+                Interview interview = new Interview();
+                interview.setJob(job);
+                System.out.println(interview.getId());
+                System.out.println("this is an interview for " + interview.getJob().getPositionTitle());
+
+                model.addAttribute("interview",interviewBool); // this is the boolean value that will let us know whether
+                // -> the form should be displayed for an interview.
+
+                // Sub section for the interview class. Will be sending the three technical questions to the interview class
+                interview.setJobQuest1(job.getQuestionOne());
+                interview.setJobQuest2(job.getQuestionTwo());
+                interview.setJobQuest3(job.getQuestionThree());
+                userRepository.save(user);
+                interviewRepository.save(interview);
+
+            }
+            return "show2";
+
         }
-        return "show2";
 
+        @RequestMapping("/update/job/{id}")
+        public String updateMessage(@PathVariable("id") long id, Model model){
+            model.addAttribute("job", jobRepo.findById(id).get());
+            return "jobform";
         }
 
-    @RequestMapping("/update/job/{id}")
-    public String updateMessage(@PathVariable("id") long id, Model model){
-        model.addAttribute("job", jobRepo.findById(id).get());
-        return "jobform";
-    }
+        @RequestMapping("/delete/job/{id}")
+        public String delMessage(@PathVariable("id") long id) {
+            jobRepo.deleteById(id);
+            return "redirect:/";
+        }
 
-    @RequestMapping("/delete/job/{id}")
-    public String delMessage(@PathVariable("id") long id) {
-        jobRepo.deleteById(id);
-        return "redirect:/";
-    }
+
+        @RequestMapping("/mypost")// <-- Call back all posts made by user.
+        public String profilePage(Model model){
+            long creatorID= userService.getUser().getId();
+            ArrayList<Job> results =(ArrayList<Job>) jobRepo.findByAdminCreatorId(creatorID);
+
+
+            model.addAttribute("user", userService.getUser().getId());
+            model.addAttribute("results",results);
+
+
+
+
+            return "mypost";
+        }
+
 
 
 //
@@ -156,4 +202,5 @@ public class AntController {
 
 
 
-}
+    }
+

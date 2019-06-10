@@ -18,7 +18,13 @@ public class Resume {
     //@JoinColumn(name = "user_id")
    // private User user;
 
-    @Column(name="email", nullable=false, length=20000)
+    public Resume(String title, String filename, ArrayList<String> result) {
+        this.title = title;
+        this.filename = filename;
+        this.result = result;
+    }
+
+    @Column(name="result", nullable=false, length=20000)
     private ArrayList<String> result = new ArrayList<>();
 
     @ManyToOne

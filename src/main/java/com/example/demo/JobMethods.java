@@ -4,17 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class JobMethods {
 
-@Autowired
-User user;
+    @Autowired
+    User user;
 
-@Autowired
-Job job;
-@Autowired
-Resume resume;
+    @Autowired
+    Job job;
+    @Autowired
+    Resume resume;
 
 
 
@@ -33,14 +34,20 @@ Resume resume;
 
 
     public boolean compareTool(User user, Job job){
-        ArrayList<String> userResume =resume.getResult();
+        Collection<Resume> res =user.getResumes();/// updated section
+        System.out.println(res.size());
         List<String> jobKeywords =SplitKeyWords(job.getKeyWord());
         int counter=0;
         int keyWordCount = jobKeywords.size();
-        for (String word:jobKeywords){
-            for (String key:userResume){
-                if (word.equalsIgnoreCase(key)){
-                    counter++;
+
+        for (Resume temp :res){
+            ArrayList<String> myResume = temp.getResult();
+            System.out.println("this is the arraylist of resumes" + myResume);
+            for (String word:jobKeywords){
+                for (String key:myResume){
+                    if (word.equalsIgnoreCase(key)){
+                        counter++;
+                    }
                 }
             }
         }

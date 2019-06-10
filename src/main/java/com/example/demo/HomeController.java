@@ -34,6 +34,8 @@ public class HomeController {
     @Autowired
     ResumeRepository resumeRepository;
 
+    @Autowired HomeControllerOona homeControllerOona;
+
     @Autowired
     private JavaMailSender sender;
     Path fi; // to check for sent email with
@@ -209,16 +211,17 @@ public class HomeController {
 return "email";
     }
 
-    @RequestMapping("/send2")
+  //  @RequestMapping("/send2")
     @ResponseBody
     String homes() {
         try {
             sendEmails();
             return "Email Sent!";
         } catch (Exception ex) {
-            return "Error in sending email: " + ex;
+            return "/email";
         }
     }
+  //  String intervewfileName=homeControllerOona.fname;
 
     private void sendEmails() throws Exception {
         MimeMessage message = sender.createMimeMessage();
